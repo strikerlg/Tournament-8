@@ -1,0 +1,30 @@
+AppBundle\Entity\Competition:
+    type: entity
+    table: competition
+    repositoryClass: AppBundle\Repository\CompetitionRepository
+    inheritanceType: JOINED
+    discriminatorColumn:
+        name: discriminator
+        type: string
+        length: 255
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: '100'
+        season:
+            type: string
+            length: '10'
+            nullable: true
+    
+    oneToMany:
+        participants:
+            targetEntity: AppBundle\Entity\AbstractParticipant
+            mappedBy: competition
+
+    lifecycleCallbacks: {  }

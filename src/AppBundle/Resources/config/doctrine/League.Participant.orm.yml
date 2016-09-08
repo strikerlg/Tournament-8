@@ -1,0 +1,18 @@
+AppBundle\Entity\League\Participant:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\League\ParticipantRepository
+
+    fields:
+        points:
+            type: integer
+        goalsFor:
+            type: integer
+        goalsAgainst:
+            type: integer
+        goalDifference:
+            type: integer
+        gamesPlayed:
+            type: smallint
+            
+    lifecycleCallbacks: {  }

@@ -1,0 +1,19 @@
+AppBundle\Entity\AbstractParticipant:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\AbstractParticipantRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+            
+    manyToOne:
+        team:
+            targetEntity: AppBundle\Entity\Team
+        competition:
+            targetEntity: AppBundle\Entity\Competition
+            inversedBy: participants
+    
+    lifecycleCallbacks: {  }
