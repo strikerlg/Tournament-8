@@ -5,14 +5,10 @@ AppBundle\Entity\League:
     fields:
         pointsForWin:
             type: smallint
-            default: 3
         pointsForDraw:
             type: smallint
-            default: 1
         pointsForLose:
             type: smallint
-            default: 0
         numberOfLegs:
             type: smallint
-            default: 2
     lifecycleCallbacks: {  }

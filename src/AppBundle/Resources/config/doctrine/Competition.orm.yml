@@ -21,6 +21,15 @@ AppBundle\Entity\Competition:
             type: string
             length: '10'
             nullable: true
+        rankPointsForWin:
+            type: smallint
+            nullable: true
+        rankPointsForDraw:
+            type: smallint
+            nullable: true
+        rankPointsForLose:
+            type: smallint
+            nullable: true
     
     oneToMany:
         participants:

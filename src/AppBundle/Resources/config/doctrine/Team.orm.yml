@@ -19,4 +19,8 @@ AppBundle\Entity\Team:
             type: string
             length: 255
             nullable: true
+    oneToMany:
+        participants:
+            targetEntity: AppBundle\Entity\AbstractParticipant
+            mappedBy: team
     lifecycleCallbacks: {  }

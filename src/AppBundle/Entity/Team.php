@@ -1,5 +1,9 @@
 <?php
 
+use AppBundle\Entity\AbstractParticipant;
+use AppBundle\Entity\Team;
+use Doctrine\Common\Collections\ArrayCollection;
+
 namespace AppBundle\Entity;
 
 /**
@@ -27,6 +31,10 @@ class Team
      */
     private $stadium;
 
+    /**
+     * @var ArrayCollection
+     */
+    private $participants;
 
     /**
      * Get id
@@ -109,5 +117,33 @@ class Team
     {
         return $this->stadium;
     }
-}
+    
+    public function getParticipants()
+    {
+        return $this->participants;
+    }
 
+    /**
+     * @param AbstractParticipant $participant
+     * 
+     * @return $this
+     */
+    public function addParticipants(AbstractParticipant $participant)
+    {
+        $this->participants->add($participant);
+        
+        return $this;
+    }
+
+    /**
+     * @param AbstractParticipant $participant
+     * 
+     * @return $this
+     */
+    public function removeParticipants(AbstractParticipant $participant)
+    {
+        $this->participants->removeElement($participant);
+        
+        return $this;
+    }
+}

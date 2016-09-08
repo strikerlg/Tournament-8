@@ -2,6 +2,11 @@ AppBundle\Entity\AbstractParticipant:
     type: entity
     table: null
     repositoryClass: AppBundle\Repository\AbstractParticipantRepository
+    inheritanceType: JOINED
+    discriminatorColumn:
+        name: discriminator
+        type: string
+        length: 255
     id:
         id:
             type: integer
@@ -12,6 +17,7 @@ AppBundle\Entity\AbstractParticipant:
     manyToOne:
         team:
             targetEntity: AppBundle\Entity\Team
+            inversedBy: participants
         competition:
             targetEntity: AppBundle\Entity\Competition
             inversedBy: participants

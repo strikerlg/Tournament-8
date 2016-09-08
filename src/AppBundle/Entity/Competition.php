@@ -33,7 +33,21 @@ class Competition
      * @var string
      */
     private $discriminator;
+    
+    /**
+     * @var int
+     */
+    private $rankPointsForWin;
 
+    /**
+     * @var int
+     */
+    private $rankPointsForDraw;
+
+    /**
+     * @var int
+     */
+    private $rankPointsForLose;
 
     /**
      * Get id
@@ -139,13 +153,61 @@ class Competition
     }
 
     /**
-     * Get discriminator
-     *
      * @return string
      */
     public function getDiscriminator()
     {
         return $this->discriminator;
     }
+    
+    /**
+     * @return int
+     */
+    public function getRankPointsForWin() {
+        return $this->rankPointsForWin;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRankPointsForDraw() {
+        return $this->rankPointsForDraw;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRankPointsForLose() {
+        return $this->rankPointsForLose;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setRankPointsForWin($rankPointsForWin) {
+        $this->rankPointsForWin = $rankPointsForWin;
+        
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setRankPointsForDraw($rankPointsForDraw) {
+        $this->rankPointsForDraw = $rankPointsForDraw;
+        
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setRankPointsForLose($rankPointsForLose) {
+        $this->rankPointsForLose = $rankPointsForLose;
+        
+        return $this;
+    }
+
+
 }
 
