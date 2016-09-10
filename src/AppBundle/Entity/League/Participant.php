@@ -12,27 +12,27 @@ class Participant extends AbstractParticipant
     /**
      * @var int
      */
-    private $points;
+    private $points = 0;
 
     /**
      * @var int
      */
-    private $goalsFor;
+    private $goalsFor = 0;
 
     /**
      * @var int
      */
-    private $goalsAgainst;
+    private $goalsAgainst = 0;
 
     /**
      * @var int
      */
-    private $goalDifference;
+    private $goalDifference = 0;
 
     /**
      * @var int
      */
-    private $gamesPlayed;
+    private $gamesPlayed = 0;
 
     /**
      * Set points
