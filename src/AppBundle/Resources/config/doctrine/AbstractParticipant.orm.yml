@@ -18,8 +18,17 @@ AppBundle\Entity\AbstractParticipant:
         team:
             targetEntity: AppBundle\Entity\Team
             inversedBy: participants
+            joinColumn:
+                onDelete: cascade
         competition:
             targetEntity: AppBundle\Entity\Competition
             inversedBy: participants
+            joinColumn:
+                onDelete: cascade
+    oneToMany:
+        games:
+            targetEntity: AppBundle\Entity\Game
+            mappedBy: homeTeam
+            mappedBy: awayTeam
     
     lifecycleCallbacks: {  }

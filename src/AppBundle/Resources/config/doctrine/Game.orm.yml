@@ -1,0 +1,39 @@
+AppBundle\Entity\Game:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\GameRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        played:
+            type: boolean
+        homeTeamScore:
+            type: integer
+            nullable: true
+        awayTeamScore:
+            type: integer
+            nullable: true
+        winner:
+            type: string
+            length: '4'
+            nullable: true
+        onNeutralGround:
+            type: boolean
+        beginningTime:
+            type: datetime
+            nullable: true
+    manyToOne:
+        competition:
+            targetEntity: AppBundle\Entity\Competition
+            inversedBy: games
+        homeTeam:
+            targetEntity: AppBundle\Entity\AbstractParticipant
+            inversedBy: games
+        awayTeam:
+            targetEntity: AppBundle\Entity\AbstractParticipant
+            inversedBy: games
+    lifecycleCallbacks: {  }

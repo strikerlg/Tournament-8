@@ -35,5 +35,8 @@ AppBundle\Entity\Competition:
         participants:
             targetEntity: AppBundle\Entity\AbstractParticipant
             mappedBy: competition
+        games:
+            targetEntity: AppBundle\Entity\Game
+            mappedBy: competition
 
     lifecycleCallbacks: {  }

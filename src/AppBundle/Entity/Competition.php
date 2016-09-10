@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Competition
  */
-class Competition
+abstract class Competition
 {
     /**
      * @var int
@@ -28,12 +28,12 @@ class Competition
      * @var ArrayCollection
      */
     private $participants;
-    
+
     /**
      * @var string
      */
     private $discriminator;
-    
+
     /**
      * @var int
      */
@@ -48,6 +48,11 @@ class Competition
      * @var int
      */
     private $rankPointsForLose;
+
+    /**
+     * @var ArrayCollection
+     */
+    private $games;
 
     /**
      * Get id
@@ -125,7 +130,7 @@ class Competition
 
         return $this;
     }
-    
+
     /**
      * 
      * @param AbstractParticipant $participant
@@ -159,55 +164,91 @@ class Competition
     {
         return $this->discriminator;
     }
-    
+
     /**
      * @return int
      */
-    public function getRankPointsForWin() {
+    public function getRankPointsForWin()
+    {
         return $this->rankPointsForWin;
     }
 
     /**
      * @return int
      */
-    public function getRankPointsForDraw() {
+    public function getRankPointsForDraw()
+    {
         return $this->rankPointsForDraw;
     }
 
     /**
      * @return int
      */
-    public function getRankPointsForLose() {
+    public function getRankPointsForLose()
+    {
         return $this->rankPointsForLose;
     }
 
     /**
      * @return $this
      */
-    public function setRankPointsForWin($rankPointsForWin) {
+    public function setRankPointsForWin($rankPointsForWin)
+    {
         $this->rankPointsForWin = $rankPointsForWin;
-        
+
         return $this;
     }
 
     /**
      * @return $this
      */
-    public function setRankPointsForDraw($rankPointsForDraw) {
+    public function setRankPointsForDraw($rankPointsForDraw)
+    {
         $this->rankPointsForDraw = $rankPointsForDraw;
-        
+
         return $this;
     }
 
     /**
      * @return $this
      */
-    public function setRankPointsForLose($rankPointsForLose) {
+    public function setRankPointsForLose($rankPointsForLose)
+    {
         $this->rankPointsForLose = $rankPointsForLose;
-        
+
         return $this;
     }
 
+    /**
+     * @return ArrayCollection
+     */
+    public function getGames()
+    {
+        return $this->games;
+    }
+
+    /**
+     * @param Game $game
+     * 
+     * @return $this
+     */
+    public function addGame(Game $game)
+    {
+        $this->games->add($game);
+
+        return $this;
+    }
+    
+    /**
+     * @param Game $game
+     * 
+     * @return $this
+     */
+    public function removeGame(Game $game)
+    {
+        $this->games->removeElement($game);
+        
+        return $this;
+    }
 
 }
-

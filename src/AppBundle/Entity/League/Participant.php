@@ -3,6 +3,7 @@
 namespace AppBundle\Entity\League;
 
 use AppBundle\Entity\AbstractParticipant;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Participant
@@ -33,7 +34,7 @@ class Participant extends AbstractParticipant
      * @var int
      */
     private $gamesPlayed = 0;
-
+    
     /**
      * Set points
      *
@@ -153,5 +154,14 @@ class Participant extends AbstractParticipant
     {
         return $this->gamesPlayed;
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getGames()
+    {
+        return $this->games;
+    }
+
 }
 
