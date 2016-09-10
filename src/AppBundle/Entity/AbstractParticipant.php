@@ -4,8 +4,8 @@ namespace AppBundle\Entity;
 
 use AppBundle\Entity\League\Participant;
 
-abstract class AbstractParticipant {
-
+abstract class AbstractParticipant
+{
     /**
      * @var int
      */
@@ -20,14 +20,14 @@ abstract class AbstractParticipant {
      * @var Competition
      */
     private $competition;
-    
+
     /**
      * @var ArrayCollection
      */
     private $games;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -37,7 +37,7 @@ abstract class AbstractParticipant {
     }
 
     /**
-     * Set team
+     * Set team.
      *
      * @param Team $team
      *
@@ -51,7 +51,7 @@ abstract class AbstractParticipant {
     }
 
     /**
-     * Get team
+     * Get team.
      *
      * @return Team
      */
@@ -63,44 +63,44 @@ abstract class AbstractParticipant {
     /**
      * @return Competition
      */
-    public function getCompetition() {
+    public function getCompetition()
+    {
         return $this->competition;
     }
 
     /**
-     * 
      * @param Competition $competition
-     * 
+     *
      * @return $this
      */
-    public function setCompetition(Competition $competition) {
+    public function setCompetition(Competition $competition)
+    {
         $this->competition = $competition;
+
         return $this;
     }
 
     /**
      * @param \AppBundle\Entity\League\Game $game
-     * 
+     *
      * @return \AppBundle\Entity\League\Participant
      */
     public function addGame(Game $game)
     {
         $this->games->add($game);
-        
+
         return $this;
     }
 
     /**
      * @param \AppBundle\Entity\League\Game $game
-     * 
+     *
      * @return \AppBundle\Entity\League\Participant
      */
     public function removeGame(Game $game)
     {
         $this->games->removeElement($game);
-        
+
         return $this;
     }
-
-
 }

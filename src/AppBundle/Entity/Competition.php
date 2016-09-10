@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Competition
+ * Competition.
  */
 abstract class Competition
 {
@@ -55,7 +55,7 @@ abstract class Competition
     private $games;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -65,7 +65,7 @@ abstract class Competition
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -79,7 +79,7 @@ abstract class Competition
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -89,7 +89,7 @@ abstract class Competition
     }
 
     /**
-     * Set season
+     * Set season.
      *
      * @param string $season
      *
@@ -103,7 +103,7 @@ abstract class Competition
     }
 
     /**
-     * Get season
+     * Get season.
      *
      * @return string
      */
@@ -122,6 +122,7 @@ abstract class Competition
 
     /**
      * @param AbstractParticipant $participant
+     *
      * @return Competition
      */
     public function addParticipant(AbstractParticipant $participant)
@@ -132,8 +133,8 @@ abstract class Competition
     }
 
     /**
-     * 
      * @param AbstractParticipant $participant
+     *
      * @return Competition
      */
     public function removeParticipant(AbstractParticipant $participant)
@@ -144,7 +145,7 @@ abstract class Competition
     }
 
     /**
-     * Set discriminator
+     * Set discriminator.
      *
      * @param string $discriminator
      *
@@ -229,7 +230,7 @@ abstract class Competition
 
     /**
      * @param Game $game
-     * 
+     *
      * @return $this
      */
     public function addGame(Game $game)
@@ -238,17 +239,16 @@ abstract class Competition
 
         return $this;
     }
-    
+
     /**
      * @param Game $game
-     * 
+     *
      * @return $this
      */
     public function removeGame(Game $game)
     {
         $this->games->removeElement($game);
-        
+
         return $this;
     }
-
 }

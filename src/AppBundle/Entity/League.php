@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 /**
- * League
+ * League.
  */
 class League extends Competition
 {
@@ -28,9 +28,9 @@ class League extends Competition
     private $numberOfLegs = 2;
 
     /**
-     * Set pointsForWin
+     * Set pointsForWin.
      *
-     * @param integer $pointsForWin
+     * @param int $pointsForWin
      *
      * @return League
      */
@@ -42,7 +42,7 @@ class League extends Competition
     }
 
     /**
-     * Get pointsForWin
+     * Get pointsForWin.
      *
      * @return int
      */
@@ -52,9 +52,9 @@ class League extends Competition
     }
 
     /**
-     * Set pointsForDraw
+     * Set pointsForDraw.
      *
-     * @param integer $pointsForDraw
+     * @param int $pointsForDraw
      *
      * @return League
      */
@@ -66,7 +66,7 @@ class League extends Competition
     }
 
     /**
-     * Get pointsForDraw
+     * Get pointsForDraw.
      *
      * @return int
      */
@@ -76,9 +76,9 @@ class League extends Competition
     }
 
     /**
-     * Set pointsForLose
+     * Set pointsForLose.
      *
-     * @param integer $pointsForLose
+     * @param int $pointsForLose
      *
      * @return League
      */
@@ -90,7 +90,7 @@ class League extends Competition
     }
 
     /**
-     * Get pointsForLose
+     * Get pointsForLose.
      *
      * @return int
      */
@@ -100,9 +100,9 @@ class League extends Competition
     }
 
     /**
-     * Set numberOfLegs
+     * Set numberOfLegs.
      *
-     * @param integer $numberOfLegs
+     * @param int $numberOfLegs
      *
      * @return League
      */
@@ -114,7 +114,7 @@ class League extends Competition
     }
 
     /**
-     * Get numberOfLegs
+     * Get numberOfLegs.
      *
      * @return int
      */
@@ -123,4 +123,3 @@ class League extends Competition
         return $this->numberOfLegs;
     }
 }
-

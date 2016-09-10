@@ -74,7 +74,7 @@ class GamesFixtures extends AbstractFixture implements OrderedFixtureInterface
         $manager->flush();
         $this->generateResults($manager);
     }
-    
+
     private function generateResults(ObjectManager $manager)
     {
         foreach ($this->games as $game) {
@@ -87,7 +87,7 @@ class GamesFixtures extends AbstractFixture implements OrderedFixtureInterface
             } else {
                 $winner = Game::WINNER_DRAW;
             }
-                
+
             $game
                 ->setHomeTeamScore($homeScore)
                 ->setAwayTeamScore($awayScore)
@@ -102,5 +102,4 @@ class GamesFixtures extends AbstractFixture implements OrderedFixtureInterface
     {
         return 4;
     }
-
 }

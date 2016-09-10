@@ -1,13 +1,11 @@
 <?php
 
-use AppBundle\Entity\AbstractParticipant;
-use AppBundle\Entity\Team;
 use Doctrine\Common\Collections\ArrayCollection;
 
 namespace AppBundle\Entity;
 
 /**
- * Team
+ * Team.
  */
 class Team
 {
@@ -37,7 +35,7 @@ class Team
     private $participants;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -47,7 +45,7 @@ class Team
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -61,7 +59,7 @@ class Team
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -71,9 +69,9 @@ class Team
     }
 
     /**
-     * Set rank
+     * Set rank.
      *
-     * @param integer $rank
+     * @param int $rank
      *
      * @return Team
      */
@@ -85,7 +83,7 @@ class Team
     }
 
     /**
-     * Get rank
+     * Get rank.
      *
      * @return int
      */
@@ -95,7 +93,7 @@ class Team
     }
 
     /**
-     * Set stadium
+     * Set stadium.
      *
      * @param string $stadium
      *
@@ -109,7 +107,7 @@ class Team
     }
 
     /**
-     * Get stadium
+     * Get stadium.
      *
      * @return string
      */
@@ -117,7 +115,7 @@ class Team
     {
         return $this->stadium;
     }
-    
+
     public function getParticipants()
     {
         return $this->participants;
@@ -125,25 +123,25 @@ class Team
 
     /**
      * @param AbstractParticipant $participant
-     * 
+     *
      * @return $this
      */
     public function addParticipants(AbstractParticipant $participant)
     {
         $this->participants->add($participant);
-        
+
         return $this;
     }
 
     /**
      * @param AbstractParticipant $participant
-     * 
+     *
      * @return $this
      */
     public function removeParticipants(AbstractParticipant $participant)
     {
         $this->participants->removeElement($participant);
-        
+
         return $this;
     }
 }

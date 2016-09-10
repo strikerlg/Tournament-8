@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 /**
- * Game
+ * Game.
  */
 class Game
 {
@@ -61,9 +61,8 @@ class Game
      */
     private $beginningTime;
 
-
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -73,9 +72,9 @@ class Game
     }
 
     /**
-     * Set played
+     * Set played.
      *
-     * @param boolean $played
+     * @param bool $played
      *
      * @return Game
      */
@@ -87,7 +86,7 @@ class Game
     }
 
     /**
-     * Get played
+     * Get played.
      *
      * @return bool
      */
@@ -97,7 +96,7 @@ class Game
     }
 
     /**
-     * Set homeTeam
+     * Set homeTeam.
      *
      * @param \stdClass $homeTeam
      *
@@ -111,7 +110,7 @@ class Game
     }
 
     /**
-     * Get homeTeam
+     * Get homeTeam.
      *
      * @return \stdClass
      */
@@ -121,7 +120,7 @@ class Game
     }
 
     /**
-     * Set awayTeam
+     * Set awayTeam.
      *
      * @param \stdClass $awayTeam
      *
@@ -135,7 +134,7 @@ class Game
     }
 
     /**
-     * Get awayTeam
+     * Get awayTeam.
      *
      * @return \stdClass
      */
@@ -145,9 +144,9 @@ class Game
     }
 
     /**
-     * Set homeTeamScore
+     * Set homeTeamScore.
      *
-     * @param integer $homeTeamScore
+     * @param int $homeTeamScore
      *
      * @return Game
      */
@@ -159,7 +158,7 @@ class Game
     }
 
     /**
-     * Get homeTeamScore
+     * Get homeTeamScore.
      *
      * @return int
      */
@@ -169,9 +168,9 @@ class Game
     }
 
     /**
-     * Set awayTeamScore
+     * Set awayTeamScore.
      *
-     * @param integer $awayTeamScore
+     * @param int $awayTeamScore
      *
      * @return Game
      */
@@ -183,7 +182,7 @@ class Game
     }
 
     /**
-     * Get awayTeamScore
+     * Get awayTeamScore.
      *
      * @return int
      */
@@ -193,7 +192,7 @@ class Game
     }
 
     /**
-     * Set winner
+     * Set winner.
      *
      * @param string $winner
      *
@@ -207,7 +206,7 @@ class Game
     }
 
     /**
-     * Get winner
+     * Get winner.
      *
      * @return string
      */
@@ -217,7 +216,7 @@ class Game
     }
 
     /**
-     * Set competition
+     * Set competition.
      *
      * @param \stdClass $competition
      *
@@ -231,7 +230,7 @@ class Game
     }
 
     /**
-     * Get competition
+     * Get competition.
      *
      * @return \stdClass
      */
@@ -241,9 +240,9 @@ class Game
     }
 
     /**
-     * Set onNeutralGround
+     * Set onNeutralGround.
      *
-     * @param boolean $onNeutralGround
+     * @param bool $onNeutralGround
      *
      * @return Game
      */
@@ -255,7 +254,7 @@ class Game
     }
 
     /**
-     * Get onNeutralGround
+     * Get onNeutralGround.
      *
      * @return bool
      */
@@ -265,7 +264,7 @@ class Game
     }
 
     /**
-     * Set beginningTime
+     * Set beginningTime.
      *
      * @param \DateTime $beginningTime
      *
@@ -279,7 +278,7 @@ class Game
     }
 
     /**
-     * Get beginningTime
+     * Get beginningTime.
      *
      * @return \DateTime
      */
@@ -288,4 +287,3 @@ class Game
         return $this->beginningTime;
     }
 }
-

@@ -72,5 +72,4 @@ class TeamsFixtures extends AbstractFixture implements OrderedFixtureInterface
     {
         return 1;
     }
-
 }

@@ -24,13 +24,14 @@ class TournamentFixtures extends AbstractFixture implements OrderedFixtureInterf
             ->setRankPointsForWin(2)
             ->setRankPointsForDraw(1)
             ->setRankPointsForLose(0);
-        
+
         $manager->persist($tournament);
         $this->addReference('league-1', $tournament);
         $manager->flush();
     }
-    
-    public function getOrder() {
+
+    public function getOrder()
+    {
         return 2;
     }
 }

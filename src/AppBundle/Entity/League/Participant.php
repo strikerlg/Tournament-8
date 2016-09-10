@@ -6,7 +6,7 @@ use AppBundle\Entity\AbstractParticipant;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Participant
+ * Participant.
  */
 class Participant extends AbstractParticipant
 {
@@ -34,11 +34,11 @@ class Participant extends AbstractParticipant
      * @var int
      */
     private $gamesPlayed = 0;
-    
+
     /**
-     * Set points
+     * Set points.
      *
-     * @param integer $points
+     * @param int $points
      *
      * @return Participant
      */
@@ -50,7 +50,7 @@ class Participant extends AbstractParticipant
     }
 
     /**
-     * Get points
+     * Get points.
      *
      * @return int
      */
@@ -60,9 +60,9 @@ class Participant extends AbstractParticipant
     }
 
     /**
-     * Set goalsFor
+     * Set goalsFor.
      *
-     * @param integer $goalsFor
+     * @param int $goalsFor
      *
      * @return Participant
      */
@@ -74,7 +74,7 @@ class Participant extends AbstractParticipant
     }
 
     /**
-     * Get goalsFor
+     * Get goalsFor.
      *
      * @return int
      */
@@ -84,9 +84,9 @@ class Participant extends AbstractParticipant
     }
 
     /**
-     * Set goalsAgains
+     * Set goalsAgains.
      *
-     * @param integer $goalsAgainst
+     * @param int $goalsAgainst
      *
      * @return Participant
      */
@@ -98,7 +98,7 @@ class Participant extends AbstractParticipant
     }
 
     /**
-     * Get goalsAgains
+     * Get goalsAgains.
      *
      * @return int
      */
@@ -108,9 +108,9 @@ class Participant extends AbstractParticipant
     }
 
     /**
-     * Set goalDifference
+     * Set goalDifference.
      *
-     * @param integer $goalDifference
+     * @param int $goalDifference
      *
      * @return Participant
      */
@@ -122,7 +122,7 @@ class Participant extends AbstractParticipant
     }
 
     /**
-     * Get goalDifference
+     * Get goalDifference.
      *
      * @return int
      */
@@ -132,9 +132,9 @@ class Participant extends AbstractParticipant
     }
 
     /**
-     * Set gamesPlayed
+     * Set gamesPlayed.
      *
-     * @param integer $gamesPlayed
+     * @param int $gamesPlayed
      *
      * @return Participant
      */
@@ -146,7 +146,7 @@ class Participant extends AbstractParticipant
     }
 
     /**
-     * Get gamesPlayed
+     * Get gamesPlayed.
      *
      * @return int
      */
@@ -162,6 +162,4 @@ class Participant extends AbstractParticipant
     {
         return $this->games;
     }
-
 }
-
