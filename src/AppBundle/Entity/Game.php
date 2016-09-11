@@ -7,10 +7,6 @@ namespace AppBundle\Entity;
  */
 class Game
 {
-    const WINNER_HOME = 'home';
-    const WINNER_DRAW = 'draw';
-    const WINNER_AWAY = 'away';
-
     /**
      * @var int
      */
@@ -22,12 +18,12 @@ class Game
     private $played = false;
 
     /**
-     * @var \stdClass
+     * @var AbstractParticipant
      */
     private $homeTeam;
 
     /**
-     * @var \stdClass
+     * @var AbstractParticipant
      */
     private $awayTeam;
 
@@ -42,12 +38,12 @@ class Game
     private $awayTeamScore;
 
     /**
-     * @var string
+     * @var AbstractParticipant
      */
     private $winner;
 
     /**
-     * @var \stdClass
+     * @var Competition
      */
     private $competition;
 
@@ -98,11 +94,11 @@ class Game
     /**
      * Set homeTeam.
      *
-     * @param \stdClass $homeTeam
+     * @param AbstractParticipant $homeTeam
      *
      * @return Game
      */
-    public function setHomeTeam($homeTeam)
+    public function setHomeTeam(AbstractParticipant $homeTeam)
     {
         $this->homeTeam = $homeTeam;
 
@@ -112,7 +108,7 @@ class Game
     /**
      * Get homeTeam.
      *
-     * @return \stdClass
+     * @return AbstractParticipant
      */
     public function getHomeTeam()
     {
@@ -122,11 +118,11 @@ class Game
     /**
      * Set awayTeam.
      *
-     * @param \stdClass $awayTeam
+     * @param AbstractParticipant $awayTeam
      *
      * @return Game
      */
-    public function setAwayTeam($awayTeam)
+    public function setAwayTeam(AbstractParticipant $awayTeam)
     {
         $this->awayTeam = $awayTeam;
 
@@ -136,7 +132,7 @@ class Game
     /**
      * Get awayTeam.
      *
-     * @return \stdClass
+     * @return AbstractParticipant
      */
     public function getAwayTeam()
     {
@@ -194,11 +190,11 @@ class Game
     /**
      * Set winner.
      *
-     * @param string $winner
+     * @param AbstractParticipant $winner
      *
      * @return Game
      */
-    public function setWinner($winner)
+    public function setWinner(AbstractParticipant $winner)
     {
         $this->winner = $winner;
 
@@ -218,11 +214,11 @@ class Game
     /**
      * Set competition.
      *
-     * @param \stdClass $competition
+     * @param Competition $competition
      *
      * @return Game
      */
-    public function setCompetition($competition)
+    public function setCompetition(Competition $competition)
     {
         $this->competition = $competition;
 
@@ -232,7 +228,7 @@ class Game
     /**
      * Get competition.
      *
-     * @return \stdClass
+     * @return Competition
      */
     public function getCompetition()
     {

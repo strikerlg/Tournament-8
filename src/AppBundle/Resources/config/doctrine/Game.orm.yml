@@ -17,10 +17,6 @@ AppBundle\Entity\Game:
         awayTeamScore:
             type: integer
             nullable: true
-        winner:
-            type: string
-            length: '4'
-            nullable: true
         onNeutralGround:
             type: boolean
         beginningTime:
@@ -36,4 +32,7 @@ AppBundle\Entity\Game:
         awayTeam:
             targetEntity: AppBundle\Entity\AbstractParticipant
             inversedBy: games
+        winner:
+            targetEntity: AppBundle\Entity\AbstractParticipant
+            
     lifecycleCallbacks: {  }

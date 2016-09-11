@@ -17,10 +17,11 @@ class ParticipantsFixtures extends AbstractFixture implements OrderedFixtureInte
         for ($i = 1; $i <= $numberOfTeams; $i++) {
             $participant = new Participant();
             $participant
-                ->setTeam($this->getReference('team-'.$i))
+                ->setTeam($this->getReference('team-' . $i))
                 ->setCompetition($league)
             ;
             $manager->persist($participant);
+            $this->addReference('participant-'.$i, $participant);
         }
         $manager->flush();
     }
@@ -29,4 +30,5 @@ class ParticipantsFixtures extends AbstractFixture implements OrderedFixtureInte
     {
         return 3;
     }
+
 }

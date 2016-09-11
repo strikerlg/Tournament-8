@@ -19,43 +19,43 @@ class GamesFixtures extends AbstractFixture implements OrderedFixtureInterface
         $league = $this->getReference('league-1');
         $gamesData = [
             [
-                'homeTeam' => $this->getReference('team-1'),
-                'awayTeam' => $this->getReference('team-8'),
+                'homeTeam' => $this->getReference('participant-1'),
+                'awayTeam' => $this->getReference('participant-8'),
                 'competition' => $league,
             ],
             [
-                'homeTeam' => $this->getReference('team-2'),
-                'awayTeam' => $this->getReference('team-7'),
+                'homeTeam' => $this->getReference('participant-2'),
+                'awayTeam' => $this->getReference('participant-7'),
                 'competition' => $league,
             ],
             [
-                'homeTeam' => $this->getReference('team-3'),
-                'awayTeam' => $this->getReference('team-6'),
+                'homeTeam' => $this->getReference('participant-3'),
+                'awayTeam' => $this->getReference('participant-6'),
                 'competition' => $league,
             ],
             [
-                'homeTeam' => $this->getReference('team-4'),
-                'awayTeam' => $this->getReference('team-5'),
+                'homeTeam' => $this->getReference('participant-4'),
+                'awayTeam' => $this->getReference('participant-5'),
                 'competition' => $league,
             ],
             [
-                'homeTeam' => $this->getReference('team-5'),
-                'awayTeam' => $this->getReference('team-1'),
+                'homeTeam' => $this->getReference('participant-5'),
+                'awayTeam' => $this->getReference('participant-1'),
                 'competition' => $league,
             ],
             [
-                'homeTeam' => $this->getReference('team-6'),
-                'awayTeam' => $this->getReference('team-2'),
+                'homeTeam' => $this->getReference('participant-6'),
+                'awayTeam' => $this->getReference('participant-2'),
                 'competition' => $league,
             ],
             [
-                'homeTeam' => $this->getReference('team-7'),
-                'awayTeam' => $this->getReference('team-3'),
+                'homeTeam' => $this->getReference('participant-7'),
+                'awayTeam' => $this->getReference('participant-3'),
                 'competition' => $league,
             ],
             [
-                'homeTeam' => $this->getReference('team-8'),
-                'awayTeam' => $this->getReference('team-4'),
+                'homeTeam' => $this->getReference('participant-8'),
+                'awayTeam' => $this->getReference('participant-4'),
                 'competition' => $league,
             ],
         ];
@@ -81,18 +81,20 @@ class GamesFixtures extends AbstractFixture implements OrderedFixtureInterface
             $homeScore = mt_rand(0, 3);
             $awayScore = mt_rand(0, 3);
             if ($homeScore > $awayScore) {
-                $winner = Game::WINNER_HOME;
+                $winner = $game->getHomeTeam();
             } elseif ($homeScore < $awayScore) {
-                $winner = Game::WINNER_AWAY;
+                $winner = $game->getAwayTeam();
             } else {
-                $winner = Game::WINNER_DRAW;
+                $winner = null;
             }
 
             $game
                 ->setHomeTeamScore($homeScore)
                 ->setAwayTeamScore($awayScore)
-                ->setPlayed(true)
-                ->setWinner($winner);
+                ->setPlayed(true);
+            if (!is_null($winner)) {
+                $game->setWinner($winner);
+            }
             $manager->merge($game);
         }
         $manager->flush();
