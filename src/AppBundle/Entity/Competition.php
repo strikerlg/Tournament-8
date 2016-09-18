@@ -54,6 +54,12 @@ abstract class Competition
      */
     private $games;
 
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+        $this->games = new ArrayCollection();
+    }
+    
     /**
      * Get id.
      *

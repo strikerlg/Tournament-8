@@ -64,8 +64,8 @@ class GamesFixtures extends AbstractFixture implements OrderedFixtureInterface
         foreach ($gamesData as $gameData) {
             $game = new Game();
             $game
-                ->setHomeTeam($gameData['homeTeam'])
-                ->setAwayTeam($gameData['awayTeam'])
+                ->setHomeParticipant($gameData['homeTeam'])
+                ->setAwayParticipant($gameData['awayTeam'])
                 ->setCompetition($gameData['competition']);
             $this->addReference('game-'.++$index, $game);
             $this->games[] = $game;
@@ -81,9 +81,9 @@ class GamesFixtures extends AbstractFixture implements OrderedFixtureInterface
             $homeScore = mt_rand(0, 3);
             $awayScore = mt_rand(0, 3);
             if ($homeScore > $awayScore) {
-                $winner = $game->getHomeTeam();
+                $winner = $game->getHomeParticipant();
             } elseif ($homeScore < $awayScore) {
-                $winner = $game->getAwayTeam();
+                $winner = $game->getAwayParticipant();
             } else {
                 $winner = null;
             }

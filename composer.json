@@ -28,7 +28,9 @@
         "sensio/distribution-bundle": "^5.0",
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
-        "friendsofphp/php-cs-fixer": "^1.12"
+        "friendsofphp/php-cs-fixer": "^1.12",
+        "phpunit/phpunit": "^5.5",
+        "symfony/event-dispatcher": "^3.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

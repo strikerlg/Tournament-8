@@ -20,12 +20,12 @@ class Game
     /**
      * @var AbstractParticipant
      */
-    private $homeTeam;
+    private $homeParticipant;
 
     /**
      * @var AbstractParticipant
      */
-    private $awayTeam;
+    private $awayParticipant;
 
     /**
      * @var int
@@ -94,13 +94,13 @@ class Game
     /**
      * Set homeTeam.
      *
-     * @param AbstractParticipant $homeTeam
+     * @param AbstractParticipant $homeParticipant
      *
      * @return Game
      */
-    public function setHomeTeam(AbstractParticipant $homeTeam)
+    public function setHomeParticipant(AbstractParticipant $homeParticipant)
     {
-        $this->homeTeam = $homeTeam;
+        $this->homeParticipant = $homeParticipant;
 
         return $this;
     }
@@ -110,21 +110,21 @@ class Game
      *
      * @return AbstractParticipant
      */
-    public function getHomeTeam()
+    public function getHomeParticipant()
     {
-        return $this->homeTeam;
+        return $this->homeParticipant;
     }
 
     /**
      * Set awayTeam.
      *
-     * @param AbstractParticipant $awayTeam
+     * @param AbstractParticipant $awayParticipant
      *
      * @return Game
      */
-    public function setAwayTeam(AbstractParticipant $awayTeam)
+    public function setAwayParticipant(AbstractParticipant $awayParticipant)
     {
-        $this->awayTeam = $awayTeam;
+        $this->awayParticipant = $awayParticipant;
 
         return $this;
     }
@@ -134,9 +134,9 @@ class Game
      *
      * @return AbstractParticipant
      */
-    public function getAwayTeam()
+    public function getAwayParticipant()
     {
-        return $this->awayTeam;
+        return $this->awayParticipant;
     }
 
     /**

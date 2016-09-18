@@ -2,7 +2,7 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\League\Participant;
+use Doctrine\Common\Collections\ArrayCollection;
 
 abstract class AbstractParticipant
 {
@@ -26,6 +26,11 @@ abstract class AbstractParticipant
      */
     private $games;
 
+    public function __construct()
+    {
+        $this->games = new ArrayCollection();
+    }
+    
     /**
      * Get id.
      *
@@ -41,7 +46,7 @@ abstract class AbstractParticipant
      *
      * @param Team $team
      *
-     * @return Participant
+     * @return $this
      */
     public function setTeam(Team $team)
     {
@@ -81,9 +86,9 @@ abstract class AbstractParticipant
     }
 
     /**
-     * @param \AppBundle\Entity\League\Game $game
+     * @param Game $game
      *
-     * @return \AppBundle\Entity\League\Participant
+     * @return $this
      */
     public function addGame(Game $game)
     {
@@ -93,9 +98,9 @@ abstract class AbstractParticipant
     }
 
     /**
-     * @param \AppBundle\Entity\League\Game $game
+     * @param Game $game
      *
-     * @return \AppBundle\Entity\League\Participant
+     * @return $this
      */
     public function removeGame(Game $game)
     {

@@ -1,8 +1,8 @@
 <?php
 
-use Doctrine\Common\Collections\ArrayCollection;
-
 namespace AppBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Team.
@@ -34,6 +34,11 @@ class Team
      */
     private $participants;
 
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+    }
+    
     /**
      * Get id.
      *
@@ -126,7 +131,7 @@ class Team
      *
      * @return $this
      */
-    public function addParticipants(AbstractParticipant $participant)
+    public function addParticipant(AbstractParticipant $participant)
     {
         $this->participants->add($participant);
 
@@ -138,7 +143,7 @@ class Team
      *
      * @return $this
      */
-    public function removeParticipants(AbstractParticipant $participant)
+    public function removeParticipant(AbstractParticipant $participant)
     {
         $this->participants->removeElement($participant);
 

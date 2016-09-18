@@ -26,10 +26,10 @@ AppBundle\Entity\Game:
         competition:
             targetEntity: AppBundle\Entity\Competition
             inversedBy: games
-        homeTeam:
+        homeParticipant:
             targetEntity: AppBundle\Entity\AbstractParticipant
             inversedBy: games
-        awayTeam:
+        awayParticipant:
             targetEntity: AppBundle\Entity\AbstractParticipant
             inversedBy: games
         winner:
