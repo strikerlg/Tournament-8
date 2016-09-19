@@ -2,7 +2,6 @@
 
 namespace Pstryk82\LeagueBundle\Storage;
 
-use Pstryk82\LeagueBundle\Entity\StoredEvent;
 use Pstryk82\LeagueBundle\Repository\StoredEventRepository;
 
 class EventStorage
@@ -17,6 +16,11 @@ class EventStorage
         $this->repository = $repository;
     }
 
+    /**
+     * @param string $aggregateId
+     * 
+     * @return AbstractEvent[]
+     */
     public function find($aggregateId)
     {
         $storedEvents = $this->repository->findBy(

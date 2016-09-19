@@ -53,13 +53,13 @@ class StoredEvent
     /**
      * Set aggregateID
      *
-     * @param string $aggregateID
+     * @param string $aggregateId
      *
      * @return StoredEvent
      */
-    public function setAggregateId($aggregateID)
+    public function setAggregateId($aggregateId)
     {
-        $this->aggregateId = $aggregateID;
+        $this->aggregateId = $aggregateId;
 
         return $this;
     }
