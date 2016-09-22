@@ -40,7 +40,7 @@ class StoredEvent
         return $this;
     }
 
-        /**
+    /**
      * Get id
      *
      * @return int
@@ -107,7 +107,7 @@ class StoredEvent
      */
     public function setEvent($event)
     {
-        $this->event = $event;
+        $this->event = serialize($event);
 
         return $this;
     }
@@ -119,7 +119,7 @@ class StoredEvent
      */
     public function getEvent()
     {
-        return $this->event;
+        return unserialize($this->event);
     }
 
     /**

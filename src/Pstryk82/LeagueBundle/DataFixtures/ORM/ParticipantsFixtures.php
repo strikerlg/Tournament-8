@@ -15,7 +15,10 @@ class ParticipantsFixtures extends AbstractFixture implements OrderedFixtureInte
     public function load(ObjectManager $manager)
     {
         $leagueId = '57df175c79222';
-        $eventStorage = new EventStorage($manager->getRepository(StoredEvent::class));
+        $eventStorage = new EventStorage(
+            $manager->getRepository(StoredEvent::class),
+            $manager
+        );
         $leagueHistory = new LeagueHistory($leagueId, $eventStorage);
         
         $league = League::reconstituteFrom($leagueHistory);

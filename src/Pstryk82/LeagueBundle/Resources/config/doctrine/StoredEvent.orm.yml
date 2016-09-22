@@ -4,13 +4,10 @@ Pstryk82\LeagueBundle\Entity\StoredEvent:
     repositoryClass: Pstryk82\LeagueBundle\Repository\StoredEventRepository
     id:
         id:
-            type: string
-            length: '13'
+            type: integer
             id: true
-            options:
-                fixed: true
             generator:
-                strategy: NONE
+                strategy: AUTO
     fields:
         aggregateId:
             type: string

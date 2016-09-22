@@ -2,10 +2,9 @@
 
 namespace Pstryk82\LeagueBundle\Event;
 
-class LeagueWasFinished
+class LeagueWasFinished extends AbstractEvent
 {
     private $leagueId;
-    private $happenedAt;
 
     /**
      * @param string $leagueId
@@ -21,11 +20,4 @@ class LeagueWasFinished
     {
         return $this->leagueId;
     }
-
-    public function getHappenedAt()
-    {
-        return $this->happenedAt;
-    }
-
-
 }

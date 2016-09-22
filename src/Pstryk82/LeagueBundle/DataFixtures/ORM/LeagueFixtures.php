@@ -6,9 +6,10 @@ use DateTime;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Pstryk82\LeagueBundle\Domain\Aggregate\League;
 use Pstryk82\LeagueBundle\Entity\StoredEvent;
 use Pstryk82\LeagueBundle\Event\LeagueWasCreated;
-use Pstryk82\LeagueBundle\Generator\IdGenerator;
+use Pstryk82\LeagueBundle\Storage\EventStorage;
 
 class LeagueFixtures extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -29,16 +30,9 @@ class LeagueFixtures extends AbstractFixture implements OrderedFixtureInterface
             2,
             new DateTime()
         );
-        
-        $storedEvent = new StoredEvent();
-        $storedEvent
-            ->setId(IdGenerator::generate())
-            ->setAggregateId($leagueCreatedEvent->getLeagueId())
-            ->setAggregateClass(get_class($leagueCreatedEvent))
-            ->setEvent(serialize($leagueCreatedEvent))
-            ->setHappenedAt($leagueCreatedEvent->getHappenedAt());
-        $manager->persist($storedEvent);
-        $manager->flush();
+
+        $eventStorage = new EventStorage($manager->getRepository(StoredEvent::class), $manager);
+        $eventStorage->add($leagueCreatedEvent, League::class);
     }
     
     public function getOrder()
