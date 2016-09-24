@@ -52,7 +52,7 @@ class EventStorage
         foreach ($aggregate->getEvents() as $event) {
             $storedEvent = new StoredEvent();
             $storedEvent
-                ->setAggregateId($event->getLeagueId())
+                ->setAggregateId($event->getAggregateId())
                 ->setAggregateClass(get_class($aggregate))
                 ->setEvent($event)
                 ->setHappenedAt($event->getHappenedAt());

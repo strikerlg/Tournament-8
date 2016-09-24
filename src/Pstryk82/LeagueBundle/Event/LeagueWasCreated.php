@@ -4,7 +4,6 @@ namespace Pstryk82\LeagueBundle\Event;
 
 class LeagueWasCreated extends AbstractEvent
 {
-    private $leagueId;
     private $name;
     private $season;
     private $rankPointsForWin;
@@ -16,7 +15,7 @@ class LeagueWasCreated extends AbstractEvent
     private $numberOfLegs;
 
     /**
-     * @param string $leagueId
+     * @param string $aggregateId
      * @param string $name
      * @param string $season
      * @param int $rankPointsForWin
@@ -28,9 +27,9 @@ class LeagueWasCreated extends AbstractEvent
      * @param int $numberOfLegs
      * @param \DateTime $happenedAt
      */
-    public function __construct($leagueId, $name, $season, $rankPointsForWin, $rankPointsForDraw, $rankPointsForLose, $pointsForWin, $pointsForDraw, $pointsForLose, $numberOfLegs, $happenedAt)
+    public function __construct($aggregateId, $name, $season, $rankPointsForWin, $rankPointsForDraw, $rankPointsForLose, $pointsForWin, $pointsForDraw, $pointsForLose, $numberOfLegs, $happenedAt)
     {
-        $this->leagueId = $leagueId;
+        $this->aggregateId = $aggregateId;
         $this->name = $name;
         $this->season = $season;
         $this->rankPointsForWin = $rankPointsForWin;
@@ -46,11 +45,6 @@ class LeagueWasCreated extends AbstractEvent
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getLeagueId()
-    {
-        return $this->leagueId;
     }
 
     public function getName()

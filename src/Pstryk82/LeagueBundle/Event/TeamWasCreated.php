@@ -7,11 +7,6 @@ class TeamWasCreated extends AbstractEvent
     /**
      * @var string
      */
-    private $teamId;
-
-    /**
-     * @var string
-     */
     private $name;
 
     /**
@@ -24,9 +19,9 @@ class TeamWasCreated extends AbstractEvent
      */
     private $stadium;
 
-    public function __construct($teamId, $name, $rank, $stadium, \DateTime $happenedAt)
+    public function __construct($aggregateId, $name, $rank, $stadium, \DateTime $happenedAt)
     {
-        $this->teamId = $teamId;
+        $this->aggregateId = $aggregateId;
         $this->name = $name;
         $this->rank = $rank;
         $this->stadium = $stadium;

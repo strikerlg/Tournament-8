@@ -12,7 +12,7 @@ abstract class Competition
     /**
      * @var int
      */
-    protected $id;
+    protected $aggregateId;
 
     /**
      * @var string
@@ -59,9 +59,9 @@ abstract class Competition
      */
     private $games;
 
-    public function __construct($id)
+    public function __construct($aggregateId)
     {
-        $this->id = $id;
+        $this->aggregateId = $aggregateId;
         $this->participants = new ArrayCollection();
         $this->games = new ArrayCollection();
     }
@@ -71,9 +71,9 @@ abstract class Competition
      *
      * @return int
      */
-    public function getId()
+    public function getAggregateId()
     {
-        return $this->id;
+        return $this->aggregateId;
     }
 
     /**

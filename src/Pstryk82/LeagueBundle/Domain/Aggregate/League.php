@@ -44,22 +44,42 @@ class League extends Competition implements AggregateInterface
         return $this->getId();
     }
 
-    /**
-     * @param LegueHistory $aggregateHistory
-     * @return \self
-     */
-    public static function reconstituteFrom(AggregateHistoryInterface $aggregateHistory)
+        public function create(
+        $name,
+        $season,
+        $rankPointsForWin,
+        $rankPointsForDraw,
+        $rankPointsForLose,
+        $pointsForWin,
+        $pointsForDraw,
+        $pointsForLose,
+        $numberOfLegs
+    )
     {
-        $league = new self($aggregateHistory->getAggregateId());
-        foreach ($aggregateHistory->getEvents() as $event) {
-            $applyMethod = explode('\\', get_class($event));
-            $applyMethod = 'apply'.end($applyMethod);
-            $league->$applyMethod($event);
-        }
-        
-        return $league;
+        $leagueCreatedEvent = new LeagueWasCreated(
+            $this->aggregateId,
+            $name,
+            $season,
+            $rankPointsForWin,
+            $rankPointsForDraw,
+            $rankPointsForLose,
+            $pointsForWin,
+            $pointsForDraw,
+            $pointsForLose,
+            $numberOfLegs,
+            new \DateTime()
+        );
+        $this->recordThat($leagueCreatedEvent);
+        $this->apply($leagueCreatedEvent);
     }
-    
+
+    public function finish()
+    {
+        $leagueWasFinishedEvent = new LeagueWasFinished($this->aggregateId, new \DateTime());
+        $this->recordThat($leagueWasFinishedEvent);
+        $this->apply($leagueWasFinishedEvent);
+    }
+
     private function applyLeagueWasCreated(LeagueWasCreated $event)
     {
         $this
@@ -187,41 +207,5 @@ class League extends Competition implements AggregateInterface
     {
         $this->finished = $finished;
         return $this;
-    }
-
-    public function create(
-        $name,
-        $season,
-        $rankPointsForWin,
-        $rankPointsForDraw,
-        $rankPointsForLose,
-        $pointsForWin,
-        $pointsForDraw,
-        $pointsForLose,
-        $numberOfLegs
-    )
-    {
-        $leagueCreatedEvent = new LeagueWasCreated(
-            $this->id,
-            $name,
-            $season,
-            $rankPointsForWin,
-            $rankPointsForDraw,
-            $rankPointsForLose,
-            $pointsForWin,
-            $pointsForDraw,
-            $pointsForLose,
-            $numberOfLegs,
-            new \DateTime()
-        );
-        $this->recordThat($leagueCreatedEvent);
-        $this->apply($leagueCreatedEvent);
-    }
-
-    public function finish()
-    {
-        $leagueWasFinishedEvent = new LeagueWasFinished($this->id, new \DateTime());
-        $this->recordThat($leagueWasFinishedEvent);
-        $this->apply($leagueWasFinishedEvent);
     }
 }
