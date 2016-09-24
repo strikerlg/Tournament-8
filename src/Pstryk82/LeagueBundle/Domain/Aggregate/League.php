@@ -5,12 +5,15 @@ namespace Pstryk82\LeagueBundle\Domain\Aggregate;
 use Pstryk82\LeagueBundle\Domain\Aggregate\History\AggregateHistoryInterface;
 use Pstryk82\LeagueBundle\Event\LeagueWasCreated;
 use Pstryk82\LeagueBundle\Event\LeagueWasFinished;
+use Pstryk82\LeagueBundle\EventEngine\EventSourced;
 
 /**
  * League.
  */
 class League extends Competition implements AggregateInterface
 {
+    use EventSourced;
+
     /**
      * @var int
      */
@@ -39,11 +42,6 @@ class League extends Competition implements AggregateInterface
     public function getAggregateId()
     {
         return $this->getId();
-    }
-
-    public function getEvents()
-    {
-        
     }
 
     /**
@@ -189,5 +187,41 @@ class League extends Competition implements AggregateInterface
     {
         $this->finished = $finished;
         return $this;
+    }
+
+    public function create(
+        $name,
+        $season,
+        $rankPointsForWin,
+        $rankPointsForDraw,
+        $rankPointsForLose,
+        $pointsForWin,
+        $pointsForDraw,
+        $pointsForLose,
+        $numberOfLegs
+    )
+    {
+        $leagueCreatedEvent = new LeagueWasCreated(
+            $this->id,
+            $name,
+            $season,
+            $rankPointsForWin,
+            $rankPointsForDraw,
+            $rankPointsForLose,
+            $pointsForWin,
+            $pointsForDraw,
+            $pointsForLose,
+            $numberOfLegs,
+            new \DateTime()
+        );
+        $this->recordThat($leagueCreatedEvent);
+        $this->apply($leagueCreatedEvent);
+    }
+
+    public function finish()
+    {
+        $leagueWasFinishedEvent = new LeagueWasFinished($this->id, new \DateTime());
+        $this->recordThat($leagueWasFinishedEvent);
+        $this->apply($leagueWasFinishedEvent);
     }
 }

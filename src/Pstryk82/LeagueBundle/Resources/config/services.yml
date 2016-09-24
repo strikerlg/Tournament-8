@@ -1,17 +1,20 @@
 services:
-    pstryk82.league.league_history:
-        class: Pstryk82\LeagueBundle\Domain\Aggregate\History\LeagueHistory
-        arguments:
-            - '57df175c79222' # fix that one
-            - '@pstryk82.league.event_storage'
-
     pstryk82.league.event_storage:
         class: Pstryk82\LeagueBundle\Storage\EventStorage
         arguments:
             - '@pstryk82.league.stored_event_repository'
+            - '@doctrine.orm.default_entity_manager'
 
     pstryk82.league.stored_event_repository:
         class: Pstryk82\LeagueBundle\Repository\StoredEventRepository
         factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
             - Pstryk82\LeagueBundle\Entity\StoredEvent
+
+    pstryk82.league.event_bus:
+        class: Pstryk82\LeagueBundle\EventEngine\EventBus
+
+    pstryk82.league.listener.league:
+        class: Pstryk82\LeagueBundle\Domain\ReadModel\Listener\LeagueEventListener
+        arguments:
+            - '@pstryk82.league.event_bus'

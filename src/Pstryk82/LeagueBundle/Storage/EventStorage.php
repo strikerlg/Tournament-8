@@ -3,9 +3,9 @@
 namespace Pstryk82\LeagueBundle\Storage;
 
 use Doctrine\ORM\EntityManager;
+use Pstryk82\LeagueBundle\Domain\Aggregate\AggregateInterface;
 use Pstryk82\LeagueBundle\Entity\StoredEvent;
 use Pstryk82\LeagueBundle\Event\AbstractEvent;
-use Pstryk82\LeagueBundle\Generator\IdGenerator;
 use Pstryk82\LeagueBundle\Repository\StoredEventRepository;
 
 class EventStorage
@@ -47,15 +47,18 @@ class EventStorage
         return $events;
     }
 
-    public function add(AbstractEvent $event, $aggregateClass)
+    public function add(AggregateInterface $aggregate)
     {
-        $storedEvent = new StoredEvent();
-        $storedEvent
-            ->setAggregateId($event->getLeagueId())
-            ->setAggregateClass($aggregateClass)
-            ->setEvent($event)
-            ->setHappenedAt($event->getHappenedAt());
-        $this->entityManager->persist($storedEvent);
+        foreach ($aggregate->getEvents() as $event) {
+            $storedEvent = new StoredEvent();
+            $storedEvent
+                ->setAggregateId($event->getLeagueId())
+                ->setAggregateClass(get_class($aggregate))
+                ->setEvent($event)
+                ->setHappenedAt($event->getHappenedAt());
+            $this->entityManager->persist($storedEvent);
+        }
+        
         $this->entityManager->flush();
     }
 }

@@ -69,23 +69,27 @@ class EventStorageTest extends PHPUnit_Framework_TestCase
         $aggregateId = 'bcf';
         $now = new \DateTime();
 
-        $event = new LeagueWasFinished($aggregateId, $now);
+        $league = new League($aggregateId);
+        $league->finish();
 
-        $storedEvent = new StoredEvent();
-        $storedEvent
-            ->setAggregateId($event->getLeagueId())
-            ->setAggregateClass(League::class)
-            ->setEvent($event)
-            ->setHappenedAt($event->getHappenedAt());
+        $index = 0;
+        foreach ($league->getEvents() as $event) {
+            $storedEvent = new StoredEvent();
+            $storedEvent
+                ->setAggregateId($event->getLeagueId())
+                ->setAggregateClass(League::class)
+                ->setEvent($event)
+                ->setHappenedAt($event->getHappenedAt());
 
-        $this->entityManagerMock
-            ->expects($this->at(0))
-            ->method('persist')
-            ->with($storedEvent);
-        $this->entityManagerMock
-            ->expects($this->at(1))
-            ->method('flush');
+            $this->entityManagerMock
+                ->expects($this->at($index++))
+                ->method('persist')
+                ->with($storedEvent);
+        }
+        $this->entityManagerMock->expects($this->at($index))->method('flush');
 
-        $this->storage->add($event, League::class);
+        $this->storage->add($league);
+
+
     }
 }

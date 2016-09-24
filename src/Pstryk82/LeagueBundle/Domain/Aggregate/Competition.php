@@ -12,7 +12,7 @@ abstract class Competition
     /**
      * @var int
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
