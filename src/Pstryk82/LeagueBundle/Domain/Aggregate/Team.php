@@ -5,6 +5,7 @@ namespace Pstryk82\LeagueBundle\Domain\Aggregate;
 use Doctrine\Common\Collections\ArrayCollection;
 use Pstryk82\LeagueBundle\Event\TeamWasCreated;
 use Pstryk82\LeagueBundle\EventEngine\EventSourced;
+use Pstryk82\LeagueBundle\Generator\IdGenerator;
 
 class Team implements AggregateInterface
 {
@@ -45,22 +46,29 @@ class Team implements AggregateInterface
         return $this->aggregateId;
     }
 
-    public function create($name, $rank, $stadium)
+    /**
+     *
+     * @param type $name
+     * @param type $rank
+     * @param type $stadium
+     * 
+     * @return $this
+     */
+    public static function create($name, $rank, $stadium)
     {
+        $team = new self($aggregateId = IdGenerator::generate());
+        $team
+            ->setName($name)
+            ->setRank($rank)
+            ->setStadium($stadium);
+
         $teamWasCreatedEvent = new TeamWasCreated(
-            $this->aggregateId, $name, $rank, $stadium, new \DateTime()
+            $aggregateId, $name, $rank, $stadium, new \DateTime()
         );
 
-        $this->recordThat($teamWasCreatedEvent);
-        $this->apply($teamWasCreatedEvent);
-    }
+        $team->recordThat($teamWasCreatedEvent);
 
-    private function applyTeamWasCreated(TeamWasCreated $event)
-    {
-        $this
-            ->setName($event->getName())
-            ->setRank($event->getRank())
-            ->setStadium($event->getStadium());
+        return $team;
     }
 
     public function setName($name)

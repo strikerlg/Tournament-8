@@ -2,10 +2,10 @@
 
 namespace Pstryk82\LeagueBundle\Domain\Aggregate;
 
-use Pstryk82\LeagueBundle\Domain\Aggregate\History\AggregateHistoryInterface;
 use Pstryk82\LeagueBundle\Event\LeagueWasCreated;
 use Pstryk82\LeagueBundle\Event\LeagueWasFinished;
 use Pstryk82\LeagueBundle\EventEngine\EventSourced;
+use Pstryk82\LeagueBundle\Generator\IdGenerator;
 
 /**
  * League.
@@ -44,7 +44,21 @@ class League extends Competition implements AggregateInterface
         return $this->getId();
     }
 
-        public function create(
+    /**
+     *
+     * @param type $name
+     * @param type $season
+     * @param type $rankPointsForWin
+     * @param type $rankPointsForDraw
+     * @param type $rankPointsForLose
+     * @param type $pointsForWin
+     * @param type $pointsForDraw
+     * @param type $pointsForLose
+     * @param type $numberOfLegs
+     * 
+     * @return $this
+     */
+    public static function create(
         $name,
         $season,
         $rankPointsForWin,
@@ -56,8 +70,22 @@ class League extends Competition implements AggregateInterface
         $numberOfLegs
     )
     {
+        $league = new self($aggregateId = IdGenerator::generate());
+        $league
+            ->setName($name)
+            ->setSeason($season)
+            ->setRankPointsForWin($rankPointsForWin)
+            ->setRankPointsForDraw($rankPointsForDraw)
+            ->setRankPointsForLose($rankPointsForLose)
+            ->setPointsForWin($pointsForWin)
+            ->setPointsForDraw($pointsForDraw)
+            ->setPointsForLose($pointsForLose)
+            ->setNumberOfLegs($numberOfLegs)
+            ->setCreationDate($happenedAt = new \DateTime());
+
+
         $leagueCreatedEvent = new LeagueWasCreated(
-            $this->aggregateId,
+            $aggregateId,
             $name,
             $season,
             $rankPointsForWin,
@@ -67,10 +95,11 @@ class League extends Competition implements AggregateInterface
             $pointsForDraw,
             $pointsForLose,
             $numberOfLegs,
-            new \DateTime()
+            $happenedAt
         );
-        $this->recordThat($leagueCreatedEvent);
-        $this->apply($leagueCreatedEvent);
+        $league->recordThat($leagueCreatedEvent);
+
+        return $league;
     }
 
     public function finish()
@@ -80,20 +109,6 @@ class League extends Competition implements AggregateInterface
         $this->apply($leagueWasFinishedEvent);
     }
 
-    private function applyLeagueWasCreated(LeagueWasCreated $event)
-    {
-        $this
-            ->setName($event->getName())
-            ->setSeason($event->getSeason())
-            ->setRankPointsForWin($event->getRankPointsForWin())
-            ->setRankPointsForDraw($event->getRankPointsForDraw())
-            ->setRankPointsForLose($event->getRankPointsForLose())
-            ->setPointsForWin($event->getPointsForWin())
-            ->setPointsForDraw($event->getPointsForDraw())
-            ->setPointsForLose($event->getPointsForLose())
-            ->setNumberOfLegs($event->getNumberOfLegs())
-            ->setCreationDate($event->getHappenedAt());
-    }
     
     private function applyLeagueWasFinished(LeagueWasFinished $event)
     {
