@@ -71,6 +71,27 @@ class Team implements AggregateInterface
         return $team;
     }
 
+    private function applyTeamWasCreated(TeamWasCreated $event)
+    {
+        $this
+            ->setName($event->getName())
+            ->setRank($event->getRank())
+            ->setStadium($event->getStadium());
+    }
+
+    /**
+     * @param Competition $league
+     *
+     * @return AbstractParticipant
+     */
+    public function registerInLeague($league)
+    {
+        $participantId = IdGenerator::generate();
+        $participant = LeagueParticipant::create($participantId, $league->getAggregateId());
+
+        return $participant;
+    }
+
     public function setName($name)
     {
         $this->name = $name;

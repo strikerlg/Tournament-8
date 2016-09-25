@@ -39,11 +39,6 @@ class League extends Competition implements AggregateInterface
      */
     private $finished = false;
     
-    public function getAggregateId()
-    {
-        return $this->getId();
-    }
-
     /**
      *
      * @param type $name
@@ -109,6 +104,20 @@ class League extends Competition implements AggregateInterface
         $this->apply($leagueWasFinishedEvent);
     }
 
+    private function applyLeagueWasCreated(LeagueWasCreated $event)
+    {
+        $this
+            ->setName($event->getName())
+            ->setSeason($event->getSeason())
+            ->setRankPointsForWin($event->getRankPointsForWin())
+            ->setRankPointsForDraw($event->getRankPointsForDraw())
+            ->setRankPointsForLose($event->getRankPointsForLose())
+            ->setPointsForWin($event->getPointsForWin())
+            ->setPointsForDraw($event->getPointsForDraw())
+            ->setPointsForLose($event->getPointsForLose())
+            ->setNumberOfLegs($event->getNumberOfLegs())
+            ->setCreationDate($event->getHappenedAt());
+    }
     
     private function applyLeagueWasFinished(LeagueWasFinished $event)
     {

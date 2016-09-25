@@ -7,7 +7,6 @@ use Pstryk82\LeagueBundle\Domain\Aggregate\History\TeamHistory;
 use Pstryk82\LeagueBundle\Domain\Aggregate\League;
 use Pstryk82\LeagueBundle\Domain\Aggregate\Team;
 use Pstryk82\LeagueBundle\EventEngine\EventBus;
-use Pstryk82\LeagueBundle\Generator\IdGenerator;
 use Pstryk82\LeagueBundle\Storage\EventStorage;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,6 +23,16 @@ class LoadFixturesCommand extends ContainerAwareCommand
      * @var EventBus
      */
     private $eventBus;
+
+    /**
+     * @var string
+     */
+    private $leagueId;
+
+    /**
+     * @var Team[]
+     */
+    private $teamIds;
 
     protected function configure()
     {
@@ -70,12 +79,14 @@ class LoadFixturesCommand extends ContainerAwareCommand
         
         $this->eventBus->dispatch($league->getEvents());
         $this->eventStorage->add($league);
+
+        $this->leagueId = $league->getAggregateId();
     }
 
 
     public function executeTeamsFixtures()
     {
-            $teamData = [
+        $teamData = [
             [
                 'name' => 'Real Madrid CF',
                 'rank' => 144428,
@@ -127,12 +138,23 @@ class LoadFixturesCommand extends ContainerAwareCommand
             
             $this->eventBus->dispatch($team->getEvents());
             $this->eventStorage->add($team);
+            $this->teamIds[] = $team->getAggregateId();
         }
     }
 
     private function executeParticipantsFixtures()
     {
-        // reconstiturte League and Team to get them here...
+        $leagueHistory = new LeagueHistory($this->leagueId, $this->eventStorage);
+        $league = League::reconstituteFrom($leagueHistory);
+
+        foreach ($this->teamIds as $teamId) {
+            $teamHistory = new TeamHistory($teamId, $this->eventStorage);
+            $team = Team::reconstituteFrom($teamHistory);
+
+            $participant = $team->registerInLeague($league);
+            $this->eventBus->dispatch($participant->getEvents());
+            $this->eventStorage->add($participant);
+        }
     }
 
 
