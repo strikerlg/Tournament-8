@@ -76,7 +76,7 @@ class EventStorageTest extends PHPUnit_Framework_TestCase
         foreach ($league->getEvents() as $event) {
             $storedEvent = new StoredEvent();
             $storedEvent
-                ->setAggregateId($event->getLeagueId())
+                ->setAggregateId($event->getAggregateId())
                 ->setAggregateClass(League::class)
                 ->setEvent($event)
                 ->setHappenedAt($event->getHappenedAt());
