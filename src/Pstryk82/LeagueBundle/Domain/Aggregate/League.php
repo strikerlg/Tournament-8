@@ -7,9 +7,6 @@ use Pstryk82\LeagueBundle\Event\LeagueWasFinished;
 use Pstryk82\LeagueBundle\EventEngine\EventSourced;
 use Pstryk82\LeagueBundle\Generator\IdGenerator;
 
-/**
- * League.
- */
 class League extends Competition implements AggregateInterface
 {
     use EventSourced;

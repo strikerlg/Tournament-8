@@ -25,16 +25,6 @@ abstract class Competition
     private $season;
 
     /**
-     * @var ArrayCollection
-     */
-    private $participants;
-
-    /**
-     * @var string
-     */
-    private $discriminator;
-
-    /**
      * @var int
      */
     private $rankPointsForWin;
@@ -54,16 +44,9 @@ abstract class Competition
      */
     private $creationDate;
 
-    /**
-     * @var ArrayCollection
-     */
-    private $games;
-
     public function __construct($aggregateId)
     {
         $this->aggregateId = $aggregateId;
-        $this->participants = new ArrayCollection();
-        $this->games = new ArrayCollection();
     }
     
     /**
@@ -125,60 +108,6 @@ abstract class Competition
     }
 
     /**
-     * @return ArrayCollection
-     */
-    public function getParticipants()
-    {
-        return $this->participants;
-    }
-
-    /**
-     * @param AbstractParticipant $participant
-     *
-     * @return Competition
-     */
-    public function addParticipant(AbstractParticipant $participant)
-    {
-        $this->participants->add($participant);
-
-        return $this;
-    }
-
-    /**
-     * @param AbstractParticipant $participant
-     *
-     * @return Competition
-     */
-    public function removeParticipant(AbstractParticipant $participant)
-    {
-        $this->participants->removeElement($participant);
-
-        return $this;
-    }
-
-    /**
-     * Set discriminator.
-     *
-     * @param string $discriminator
-     *
-     * @return Competition
-     */
-    public function setDiscriminator($discriminator)
-    {
-        $this->discriminator = $discriminator;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDiscriminator()
-    {
-        return $this->discriminator;
-    }
-
-    /**
      * @return int
      */
     public function getRankPointsForWin()
@@ -232,38 +161,6 @@ abstract class Competition
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getGames()
-    {
-        return $this->games;
-    }
-
-    /**
-     * @param Game $game
-     *
-     * @return $this
-     */
-    public function addGame(Game $game)
-    {
-        $this->games->add($game);
-
-        return $this;
-    }
-
-    /**
-     * @param Game $game
-     *
-     * @return $this
-     */
-    public function removeGame(Game $game)
-    {
-        $this->games->removeElement($game);
-
-        return $this;
-    }
-    
     public function getCreationDate()
     {
         return $this->creationDate;

@@ -31,11 +31,6 @@ class Team implements AggregateInterface
      */
     private $stadium;
 
-    /**
-     * @var ArrayCollection
-     */
-    private $participants;
-
     public function __construct($aggregateId)
     {
         $this->aggregateId = $aggregateId;
@@ -95,26 +90,21 @@ class Team implements AggregateInterface
     public function setName($name)
     {
         $this->name = $name;
+        
         return $this;
     }
 
     public function setRank($rank)
     {
         $this->rank = $rank;
+
         return $this;
     }
 
     public function setStadium($stadium)
     {
         $this->stadium = $stadium;
+
         return $this;
     }
-
-    public function setParticipants(ArrayCollection $participants)
-    {
-        $this->participants = $participants;
-        return $this;
-    }
-
-
 }
