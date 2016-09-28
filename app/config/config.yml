@@ -47,6 +47,24 @@ doctrine:
         user:     "%database_user%"
         password: "%database_password%"
         charset:  UTF8
+
+#        connections:
+#            events:
+#                driver:   pdo_mysql
+#                host:     "%events.database_host%"
+#                port:     "%events.database_port%"
+#                dbname:   "%events.database_name%"
+#                user:     "%events.database_user%"
+#                password: "%events.database_password%"
+#                charset:  UTF8
+#            projections:
+#                driver:   pdo_mysql
+#                host:     "%projections.database_host%"
+#                port:     "%projections.database_port%"
+#                dbname:   "%projections.database_name%"
+#                user:     "%projections.database_user%"
+#                password: "%projections.database_password%"
+#                charset:  UTF8
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
@@ -56,8 +74,35 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
+        entity_managers:
+            events:
+                connection: default
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                mappings:
+                    stored_event:
+                        type: yml
+                        dir: '%kernel.root_dir%/../src/Pstryk82/LeagueBundle/Resources/config/doctrine/event'
+                        prefix: Pstryk82\LeagueBundle\Entity
+                        alias: StoredEvent
+                        is_bundle: false
+
+            projections:
+                connection: default
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                mappings:
+                    competition_projection:
+                        type: yml
+                        dir: '%kernel.root_dir%/../src/Pstryk82/LeagueBundle/Resources/config/doctrine/projection'
+                        prefix: Pstryk82\LeagueBundle\Domain\ReadModel\Projection
+                        alias: CompetitionProjection
+                        is_bundle: false
+                    league_projection:
+                        type: yml
+                        dir: '%kernel.root_dir%/../src/Pstryk82/LeagueBundle/Resources/config/doctrine/projection'
+                        prefix: Pstryk82\LeagueBundle\Domain\ReadModel\Projection
+                        alias: LeagueProjection
+                        is_bundle: false
+
 
 # Swiftmailer Configuration
 swiftmailer:

@@ -3,11 +3,11 @@ services:
         class: Pstryk82\LeagueBundle\Storage\EventStorage
         arguments:
             - '@pstryk82.league.stored_event_repository'
-            - '@doctrine.orm.default_entity_manager'
+            - '@doctrine.orm.events_entity_manager'
 
     pstryk82.league.stored_event_repository:
         class: Pstryk82\LeagueBundle\Repository\StoredEventRepository
-        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        factory: ['@doctrine.orm.events_entity_manager', getRepository]
         arguments:
             - Pstryk82\LeagueBundle\Entity\StoredEvent
 
@@ -18,3 +18,16 @@ services:
         class: Pstryk82\LeagueBundle\Domain\ReadModel\Listener\LeagueEventListener
         arguments:
             - '@pstryk82.league.event_bus'
+            - '@pstryk82.league.projection_storage'
+
+    pstryk82.league.projection_storage:
+        class: Pstryk82\LeagueBundle\Storage\ProjectionStorage
+        arguments:
+            - '@pstryk82.league.league_projection_repository'
+            - '@doctrine.orm.projections_entity_manager'
+
+    pstryk82.league.league_projection_repository:
+        class: Pstryk82\LeagueBundle\Repository\LeagueProjectionRepository
+        factory: ['@doctrine.orm.projections_entity_manager', getRepository]
+        arguments:
+            - Pstryk82\LeagueBundle\Domain\ReadModel\Projection\LeagueProjection

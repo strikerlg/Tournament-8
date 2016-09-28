@@ -2,6 +2,9 @@
 
 namespace Pstryk82\LeagueBundle\EventEngine;
 
+use Pstryk82\LeagueBundle\Domain\ReadModel\Listener\AbstractEventListener;
+use Pstryk82\LeagueBundle\Event\AbstractEvent;
+
 class EventBus
 {
     /**
