@@ -44,17 +44,27 @@ class LoadFixturesCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // need to initialize listeners explicitly so they register themselves in the EventBus
+        $this->leagueProjectionListener = $this->getContainer()->get('pstryk82.league.listener.league');
+        $this->teamEventListener = $this->getContainer()->get('pstryk82.league.listener.team');
+
+        
         $this->eventStorage = $this->getContainer()->get('pstryk82.league.event_storage');
         $this->eventBus = $this->getContainer()->get('pstryk82.league.event_bus');
 
-        $entityManager = $this->getContainer()->get('doctrine.orm.default_entity_manager');
-        $entityManager->getConnection()->exec('TRUNCATE TABLE stored_event');
-        $entityManager->clear();
+        $entityManagerEvents = $this->getContainer()->get('doctrine.orm.events_entity_manager');
+        $entityManagerEvents->getConnection()->exec('TRUNCATE TABLE stored_event');
+        $entityManagerEvents->clear();
 
+        $entityManagerProjections = $this->getContainer()->get('doctrine.orm.projections_entity_manager');
+        $entityManagerProjections->getConnection()->exec('DELETE FROM competition');
+        $entityManagerProjections->clear();
 
         $this->executeLeagueFixtures();
         $this->executeTeamsFixtures();
         $this->executeParticipantsFixtures();
+
+        $this->showParticipants();
 
         $output->writeln(
             sprintf(
@@ -158,4 +168,8 @@ class LoadFixturesCommand extends ContainerAwareCommand
     }
 
 
+    private function showParticipants()
+    {
+
+    }
 }

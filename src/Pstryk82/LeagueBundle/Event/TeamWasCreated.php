@@ -28,11 +28,6 @@ class TeamWasCreated extends AbstractEvent
         $this->happenedAt = $happenedAt;
     }
 
-    public function getTeamId()
-    {
-        return $this->teamId;
-    }
-
     public function getName()
     {
         return $this->name;

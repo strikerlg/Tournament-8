@@ -1,0 +1,29 @@
+Pstryk82\LeagueBundle\Domain\ReadModel\Projection\TeamProjection:
+    type: entity
+    table: team
+    repositoryClass: Pstryk82\LeagueBundle\Repository\TeamProjectionRepository
+    id:
+        id:
+            type: string
+            length: '13'
+            id: true
+            generator:
+                strategy: NONE
+            options:
+                fixed: true
+    fields:
+        name:
+            type: string
+            length: 255
+            unique: true
+        rank:
+            type: integer
+        stadium:
+            type: string
+            length: 255
+            nullable: true
+#    oneToMany:
+#        participants:
+#            targetEntity: AppBundle\Entity\AbstractParticipant
+#            mappedBy: team
+    lifecycleCallbacks: {  }

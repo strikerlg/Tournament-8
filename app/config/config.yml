@@ -48,23 +48,6 @@ doctrine:
         password: "%database_password%"
         charset:  UTF8
 
-#        connections:
-#            events:
-#                driver:   pdo_mysql
-#                host:     "%events.database_host%"
-#                port:     "%events.database_port%"
-#                dbname:   "%events.database_name%"
-#                user:     "%events.database_user%"
-#                password: "%events.database_password%"
-#                charset:  UTF8
-#            projections:
-#                driver:   pdo_mysql
-#                host:     "%projections.database_host%"
-#                port:     "%projections.database_port%"
-#                dbname:   "%projections.database_name%"
-#                user:     "%projections.database_user%"
-#                password: "%projections.database_password%"
-#                charset:  UTF8
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
