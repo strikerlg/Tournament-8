@@ -2,6 +2,8 @@
 
 namespace Pstryk82\LeagueBundle\Domain\ReadModel\Projection;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 abstract class AbstractParticipantProjection
 {
     /**
@@ -10,12 +12,12 @@ abstract class AbstractParticipantProjection
     private $id;
 
     /**
-     * @var Team
+     * @var TeamProjection
      */
     private $team;
 
     /**
-     * @var Competition
+     * @var CompetitionProjection
      */
     private $competition;
 
@@ -43,11 +45,11 @@ abstract class AbstractParticipantProjection
     /**
      * Set team.
      *
-     * @param Team $team
+     * @param TeamProjection $team
      *
      * @return $this
      */
-    public function setTeam(Team $team)
+    public function setTeam(TeamProjection $team)
     {
         $this->team = $team;
 
@@ -57,7 +59,7 @@ abstract class AbstractParticipantProjection
     /**
      * Get team.
      *
-     * @return Team
+     * @return TeamProjection
      */
     public function getTeam()
     {
@@ -65,7 +67,7 @@ abstract class AbstractParticipantProjection
     }
 
     /**
-     * @return Competition
+     * @return CompetitionProjection
      */
     public function getCompetition()
     {
@@ -73,11 +75,11 @@ abstract class AbstractParticipantProjection
     }
 
     /**
-     * @param Competition $competition
+     * @param CompetitionProjection $competition
      *
      * @return $this
      */
-    public function setCompetition(Competition $competition)
+    public function setCompetition(CompetitionProjection $competition)
     {
         $this->competition = $competition;
 

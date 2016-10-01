@@ -22,8 +22,8 @@ Pstryk82\LeagueBundle\Domain\ReadModel\Projection\TeamProjection:
             type: string
             length: 255
             nullable: true
-#    oneToMany:
-#        participants:
-#            targetEntity: AppBundle\Entity\AbstractParticipant
-#            mappedBy: team
+    oneToMany:
+        participants:
+            targetEntity: Pstryk82\LeagueBundle\Domain\ReadModel\Projection\AbstractParticipantProjection
+            mappedBy: team
     lifecycleCallbacks: {  }

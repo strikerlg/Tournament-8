@@ -26,7 +26,6 @@ services:
             - '@pstryk82.league.event_bus'
             - '@pstryk82.league.projection_storage'
 
-
     pstryk82.league.projection_storage:
         class: Pstryk82\LeagueBundle\Storage\ProjectionStorage
         arguments:
@@ -38,3 +37,9 @@ services:
         factory: ['@doctrine.orm.projections_entity_manager', getRepository]
         arguments:
             - Pstryk82\LeagueBundle\Domain\ReadModel\Projection\LeagueProjection
+
+    pstryk82.league.listener.league_participant:
+        class: Pstryk82\LeagueBundle\Domain\ReadModel\Listener\LeagueParticipantEventListener
+        arguments:
+            - '@pstryk82.league.event_bus'
+            - '@pstryk82.league.projection_storage'

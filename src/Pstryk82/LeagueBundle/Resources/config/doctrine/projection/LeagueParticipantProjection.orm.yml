@@ -1,0 +1,18 @@
+Pstryk82\LeagueBundle\Domain\ReadModel\Projection\LeagueParticipantProjection:
+    type: entity
+    table: league_participant
+    repositoryClass: Pstryk82\LeagueBundle\Repository\LeagueProjectionRepository
+
+    fields:
+        points:
+            type: integer
+        goalsFor:
+            type: integer
+        goalsAgainst:
+            type: integer
+        goalDifference:
+            type: integer
+        gamesPlayed:
+            type: smallint
+            
+    lifecycleCallbacks: {  }

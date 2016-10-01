@@ -32,12 +32,9 @@ class TeamProjection
      */
     private $participants;
 
-    public function __construct($id, $name, $rank, $stadium)
+    public function __construct($id)
     {
         $this->id = $id;
-        $this->name = $name;
-        $this->rank = $rank;
-        $this->stadium = $stadium;
         $this->participants = new ArrayCollection();
     }
 

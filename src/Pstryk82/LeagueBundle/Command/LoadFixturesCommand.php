@@ -47,6 +47,7 @@ class LoadFixturesCommand extends ContainerAwareCommand
         // need to initialize listeners explicitly so they register themselves in the EventBus
         $this->leagueProjectionListener = $this->getContainer()->get('pstryk82.league.listener.league');
         $this->teamEventListener = $this->getContainer()->get('pstryk82.league.listener.team');
+        $this->leagueParticipantEventListener = $this->getContainer()->get('pstryk82.league.listener.league_participant');
 
         
         $this->eventStorage = $this->getContainer()->get('pstryk82.league.event_storage');
@@ -58,6 +59,9 @@ class LoadFixturesCommand extends ContainerAwareCommand
 
         $entityManagerProjections = $this->getContainer()->get('doctrine.orm.projections_entity_manager');
         $entityManagerProjections->getConnection()->exec('DELETE FROM competition');
+        $entityManagerProjections->getConnection()->exec('DELETE FROM abstract_participant');
+        $entityManagerProjections->getConnection()->exec('DELETE FROM team');
+
         $entityManagerProjections->clear();
 
         $this->executeLeagueFixtures();
@@ -145,7 +149,7 @@ class LoadFixturesCommand extends ContainerAwareCommand
                 $teamRecord['rank'],
                 $teamRecord['stadium']
             );
-            
+
             $this->eventBus->dispatch($team->getEvents());
             $this->eventStorage->add($team);
             $this->teamIds[] = $team->getAggregateId();

@@ -51,11 +51,9 @@ abstract class CompetitionProjection
      */
     protected $games;
 
-    public function __construct($id, $name, $season)
+    public function __construct($id)
     {
         $this->id = $id;
-        $this->name = $name;
-        $this->season = $season;
         $this->participants = new ArrayCollection();
         $this->games = new ArrayCollection();
     }

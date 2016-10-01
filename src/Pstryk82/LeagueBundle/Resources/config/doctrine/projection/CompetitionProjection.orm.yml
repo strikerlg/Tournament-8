@@ -31,10 +31,10 @@ Pstryk82\LeagueBundle\Domain\ReadModel\Projection\CompetitionProjection:
             type: smallint
             nullable: true
     
-#    oneToMany:
-#        participants:
-#            targetEntity: AppBundle\Entity\AbstractParticipant
-#            mappedBy: competition
+    oneToMany:
+        participants:
+            targetEntity: Pstryk82\LeagueBundle\Domain\ReadModel\Projection\AbstractParticipantProjection
+            mappedBy: competition
 #        games:
 #            targetEntity: AppBundle\Entity\Game
 #            mappedBy: competition

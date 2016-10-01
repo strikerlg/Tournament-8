@@ -11,11 +11,12 @@ class LeagueEventListener extends AbstractEventListener
     public function onLeagueWasCreated(LeagueWasCreated $event)
     {
         $leagueProjection = new LeagueProjection(
-            $event->getAggregateId(),
-            $event->getName(),
-            $event->getSeason(),
-            []
+            $event->getAggregateId()
         );
+        $leagueProjection
+            ->setName($event->getName())
+            ->setSeason($event->getSeason());
+
 //        var_dump($leagueProjection); die;
 
         $this->projectionStorage->save($leagueProjection);
