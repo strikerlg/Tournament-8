@@ -68,9 +68,11 @@ class LoadFixturesCommand extends ContainerAwareCommand
         $entityManagerEvents->clear();
 
         $entityManagerProjections = $this->getContainer()->get('doctrine.orm.projections_entity_manager');
+        $entityManagerProjections->getConnection()->exec('DELETE FROM game');
         $entityManagerProjections->getConnection()->exec('DELETE FROM competition');
         $entityManagerProjections->getConnection()->exec('DELETE FROM abstract_participant');
         $entityManagerProjections->getConnection()->exec('DELETE FROM team');
+        
 
         $entityManagerProjections->clear();
 
@@ -187,22 +189,39 @@ class LoadFixturesCommand extends ContainerAwareCommand
         $leagueHistory = new LeagueHistory($this->leagueId, $this->eventStorage);
         $league = League::reconstituteFrom($leagueHistory);
 
-        $participants = [];
+        $this->participants = [];
         foreach ($this->participantIds as $participantId) {
             $participantHistory = new ParticipantHistory($participantId, $this->eventStorage);
             $participant = LeagueParticipant::reconstituteFrom($participantHistory);
-            $participants[] = $participant;
+            $this->participants[] = $participant;
         }
 
+        $numberOfParticipants = sizeof($this->participantIds);
+        for ($i = 0; $i < $numberOfParticipants; $i++) {
+            try {
+                $this->generateGameResults(
+                    $this->participants[$i],
+                    $this->participants[($i+1) * 19 % $numberOfParticipants],
+                    $league
+                );
+            } catch (GameLogicException $e) {
+                echo $e->getMessage() . " | skipping...\n";
+                continue;
+            }
+        }
+        
+    }
 
+    private function generateGameResults($homeParticipant, $awayParticipant, $league)
+    {
         $game = Game::create(
-            $participants[0],
-            $participants[1],
+            $homeParticipant,
+            $awayParticipant,
             $league,
             new DateTime()
         );
 
-        $game->recordResult(3, 2);
+        $game->recordResult(mt_rand(0, 3), mt_rand(0, 3));
 
         $this->eventBus->dispatch($game->getEvents());
         $this->eventStorage->add($game);

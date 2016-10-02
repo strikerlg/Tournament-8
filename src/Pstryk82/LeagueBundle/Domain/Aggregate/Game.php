@@ -2,6 +2,7 @@
 
 namespace Pstryk82\LeagueBundle\Domain\Aggregate;
 
+use Pstryk82\LeagueBundle\Domain\Exception\GameLogicException;
 use Pstryk82\LeagueBundle\Domain\Logic\GameWinnerChecker;
 use Pstryk82\LeagueBundle\Event\GameWasPlanned;
 use Pstryk82\LeagueBundle\Event\GameWasPlayed;
@@ -78,6 +79,11 @@ class Game implements AggregateInterface
         $onNeutralGround = false
     )
     {
+        if ($homeParticipant->getAggregateId() == $awayParticipant->getAggregateId()) {
+            throw new GameLogicException(
+                'A team cannot play against itself: aggregateId = ' . $homeParticipant->getAggregateId()
+            );
+        }
         $game = new self($aggregateId = IdGenerator::generate());
         $game
             ->setHomeParticipant($homeParticipant)
