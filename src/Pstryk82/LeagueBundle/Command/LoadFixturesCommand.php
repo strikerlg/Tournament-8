@@ -2,9 +2,13 @@
 
 namespace Pstryk82\LeagueBundle\Command;
 
+use DateTime;
+use Pstryk82\LeagueBundle\Domain\Aggregate\Game;
 use Pstryk82\LeagueBundle\Domain\Aggregate\History\LeagueHistory;
+use Pstryk82\LeagueBundle\Domain\Aggregate\History\ParticipantHistory;
 use Pstryk82\LeagueBundle\Domain\Aggregate\History\TeamHistory;
 use Pstryk82\LeagueBundle\Domain\Aggregate\League;
+use Pstryk82\LeagueBundle\Domain\Aggregate\LeagueParticipant;
 use Pstryk82\LeagueBundle\Domain\Aggregate\Team;
 use Pstryk82\LeagueBundle\EventEngine\EventBus;
 use Pstryk82\LeagueBundle\Storage\EventStorage;
@@ -30,9 +34,14 @@ class LoadFixturesCommand extends ContainerAwareCommand
     private $leagueId;
 
     /**
-     * @var Team[]
+     * @var []
      */
     private $teamIds;
+
+    /**
+     * @var []
+     */
+    private $participantIds;
 
     protected function configure()
     {
@@ -48,6 +57,7 @@ class LoadFixturesCommand extends ContainerAwareCommand
         $this->leagueProjectionListener = $this->getContainer()->get('pstryk82.league.listener.league');
         $this->teamEventListener = $this->getContainer()->get('pstryk82.league.listener.team');
         $this->leagueParticipantEventListener = $this->getContainer()->get('pstryk82.league.listener.league_participant');
+        $this->gameEventListener = $this->getContainer()->get('pstryk82.league.listener.game');
 
         
         $this->eventStorage = $this->getContainer()->get('pstryk82.league.event_storage');
@@ -67,8 +77,7 @@ class LoadFixturesCommand extends ContainerAwareCommand
         $this->executeLeagueFixtures();
         $this->executeTeamsFixtures();
         $this->executeParticipantsFixtures();
-
-        $this->showParticipants();
+        $this->executeGamesFixtures();
 
         $output->writeln(
             sprintf(
@@ -168,12 +177,34 @@ class LoadFixturesCommand extends ContainerAwareCommand
             $participant = $team->registerInLeague($league);
             $this->eventBus->dispatch($participant->getEvents());
             $this->eventStorage->add($participant);
+            $this->participantIds[] = $participant->getAggregateId();
         }
     }
 
 
-    private function showParticipants()
+    private function executeGamesFixtures()
     {
+        $leagueHistory = new LeagueHistory($this->leagueId, $this->eventStorage);
+        $league = League::reconstituteFrom($leagueHistory);
 
+        $participants = [];
+        foreach ($this->participantIds as $participantId) {
+            $participantHistory = new ParticipantHistory($participantId, $this->eventStorage);
+            $participant = LeagueParticipant::reconstituteFrom($participantHistory);
+            $participants[] = $participant;
+        }
+
+
+        $game = Game::create(
+            $participants[0],
+            $participants[1],
+            $league,
+            new DateTime()
+        );
+
+        $game->recordResult(3, 2);
+
+        $this->eventBus->dispatch($game->getEvents());
+        $this->eventStorage->add($game);
     }
 }

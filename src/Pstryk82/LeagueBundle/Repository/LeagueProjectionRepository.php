@@ -2,8 +2,6 @@
 
 namespace Pstryk82\LeagueBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
-
-class LeagueProjectionRepository extends EntityRepository
+class LeagueProjectionRepository extends CompetitionProjectionRepository
 {
 }

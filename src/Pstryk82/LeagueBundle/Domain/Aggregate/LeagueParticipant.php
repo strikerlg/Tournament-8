@@ -59,7 +59,7 @@ class LeagueParticipant extends AbstractParticipant
     {
         $this
             ->setTeamId($event->getTeamId())
-            ->setCompetitionId($event->getCompetitionId());
+            ->setCompetitionId($event->getLeagueId());
     }
 
     /**

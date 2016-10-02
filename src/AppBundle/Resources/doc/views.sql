@@ -1,3 +1,4 @@
+-- legacy ---------------------------------
 create or replace view league_standings as 
     select t.name, p.* from participant as p
         join abstract_participant as ap on ap.id = p.id
@@ -16,3 +17,14 @@ select thome.name as home, taway.name as away, g.home_team_score as H, g.away_te
     left join team as twinner on g.winner_id = twinner.id
 ;
 
+
+-- read model ----------------------------
+select
+    ap.id, t.name, lp.games_played,
+    lp.points, lp.goals_for, lp.goals_against, lp.goal_difference
+from abstract_participant as ap
+join league_participant as lp on ap.id = lp.id
+join team as t on ap.team_id = t.id
+join competition c on ap.competition_id = c.id
+where c.name = "Top Clubs' League"
+order by points desc, goal_difference desc, goals_for desc;

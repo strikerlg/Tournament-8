@@ -43,3 +43,9 @@ services:
         arguments:
             - '@pstryk82.league.event_bus'
             - '@pstryk82.league.projection_storage'
+
+    pstryk82.league.listener.game:
+        class: Pstryk82\LeagueBundle\Domain\ReadModel\Listener\GameEventListener
+        arguments:
+            - '@pstryk82.league.event_bus'
+            - '@pstryk82.league.projection_storage'

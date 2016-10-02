@@ -25,10 +25,10 @@ Pstryk82\LeagueBundle\Domain\ReadModel\Projection\AbstractParticipantProjection:
             inversedBy: participants
             joinColumn:
                 onDelete: cascade
-#    oneToMany:
-#        games:
-#            targetEntity: AppBundle\Entity\Game
-#            mappedBy: homeTeam
-#            mappedBy: awayTeam
-#
+    oneToMany:
+        games:
+            targetEntity: Pstryk82\LeagueBundle\Domain\ReadModel\Projection\GameProjection
+            mappedBy: homeTeam
+            mappedBy: awayTeam
+
     lifecycleCallbacks: {  }

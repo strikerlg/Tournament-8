@@ -31,6 +31,12 @@ class ProjectionStorage
 
     }
 
+    /**
+     * @param string $aggregateId
+     * @param string $projectionClass
+     *
+     * @return mixed
+     */
     public function find($aggregateId, $projectionClass)
     {
         $repo = $this->entityManager->getRepository($projectionClass);

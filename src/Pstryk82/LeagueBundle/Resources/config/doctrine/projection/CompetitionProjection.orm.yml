@@ -1,7 +1,7 @@
 Pstryk82\LeagueBundle\Domain\ReadModel\Projection\CompetitionProjection:
     type: entity
     table: competition
-    repositoryClass: Pstryk82\LeagueBundle\CompetitionProjectionRepository
+    repositoryClass: Pstryk82\LeagueBundle\Repository\CompetitionProjectionRepository
     inheritanceType: JOINED
     discriminatorColumn:
         name: discriminator
@@ -35,8 +35,8 @@ Pstryk82\LeagueBundle\Domain\ReadModel\Projection\CompetitionProjection:
         participants:
             targetEntity: Pstryk82\LeagueBundle\Domain\ReadModel\Projection\AbstractParticipantProjection
             mappedBy: competition
-#        games:
-#            targetEntity: AppBundle\Entity\Game
-#            mappedBy: competition
+        games:
+            targetEntity: Pstryk82\LeagueBundle\Domain\ReadModel\Projection\GameProjection
+            mappedBy: competition
 
     lifecycleCallbacks: {  }
