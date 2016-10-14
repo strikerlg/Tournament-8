@@ -30,15 +30,13 @@ class LeagueParticipantProjection extends AbstractParticipantProjection
     private $gamesPlayed = 0;
 
     /**
-     * Set points.
-     *
      * @param int $points
      *
      * @return Participant
      */
-    public function setPoints($points)
+    public function addPoints($points)
     {
-        $this->points = $points;
+        $this->points += $points;
 
         return $this;
     }
@@ -54,15 +52,13 @@ class LeagueParticipantProjection extends AbstractParticipantProjection
     }
 
     /**
-     * Set goalsFor.
-     *
      * @param int $goalsFor
      *
      * @return Participant
      */
-    public function setGoalsFor($goalsFor)
+    public function addGoalsFor($goalsFor)
     {
-        $this->goalsFor = $goalsFor;
+        $this->goalsFor += $goalsFor;
 
         return $this;
     }
@@ -78,15 +74,13 @@ class LeagueParticipantProjection extends AbstractParticipantProjection
     }
 
     /**
-     * Set goalsAgains.
-     *
      * @param int $goalsAgainst
      *
      * @return Participant
      */
-    public function setGoalsAgainst($goalsAgainst)
+    public function addGoalsAgainst($goalsAgainst)
     {
-        $this->goalsAgainst = $goalsAgainst;
+        $this->goalsAgainst += $goalsAgainst;
 
         return $this;
     }
@@ -102,15 +96,13 @@ class LeagueParticipantProjection extends AbstractParticipantProjection
     }
 
     /**
-     * Set goalDifference.
-     *
      * @param int $goalDifference
      *
      * @return Participant
      */
-    public function setGoalDifference($goalDifference)
+    public function addGoalDifference($goalDifference)
     {
-        $this->goalDifference = $goalDifference;
+        $this->goalDifference += $goalDifference;
 
         return $this;
     }
@@ -132,9 +124,9 @@ class LeagueParticipantProjection extends AbstractParticipantProjection
      *
      * @return Participant
      */
-    public function setGamesPlayed($gamesPlayed)
+    public function addGamesPlayed($gamesPlayed)
     {
-        $this->gamesPlayed = $gamesPlayed;
+        $this->gamesPlayed += $gamesPlayed;
 
         return $this;
     }

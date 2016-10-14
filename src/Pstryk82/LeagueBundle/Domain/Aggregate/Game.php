@@ -3,9 +3,10 @@
 namespace Pstryk82\LeagueBundle\Domain\Aggregate;
 
 use Pstryk82\LeagueBundle\Domain\Exception\GameLogicException;
-use Pstryk82\LeagueBundle\Domain\Logic\GameWinnerChecker;
+use Pstryk82\LeagueBundle\Domain\Logic\GameOutcomeResolver;
 use Pstryk82\LeagueBundle\Event\GameWasPlanned;
 use Pstryk82\LeagueBundle\Event\GameWasPlayed;
+use Pstryk82\LeagueBundle\Event\ParticipantHasWon;
 use Pstryk82\LeagueBundle\EventEngine\EventSourced;
 use Pstryk82\LeagueBundle\Generator\IdGenerator;
 
@@ -70,7 +71,19 @@ class Game implements AggregateInterface
     {
         $this->aggregateId = $aggregateId;
     }
-    
+
+    /**
+     *
+     * @param AbstractParticipant $homeParticipant
+     * @param AbstractParticipant $awayParticipant
+     * @param Competition $competition
+     * @param \DateTime $beginningTime
+     * @param bool $onNeutralGround
+     *
+     * @return $this
+     *
+     * @throws GameLogicException
+     */
     public static function create(
         AbstractParticipant $homeParticipant,
         AbstractParticipant $awayParticipant,
@@ -126,13 +139,15 @@ class Game implements AggregateInterface
         $this->recordThat($gameWasPlayedEvent);
         $this->apply($gameWasPlayedEvent);
 
-        $gameWinnerChecker = new GameWinnerChecker();
-        $gameWinnerChecker->determine($this);
-        if ($gameWinnerChecker->isDraw()) {
+        $gameOutcomeResolver = new GameOutcomeResolver();
+        $gameOutcomeResolver->determine($this);
+        if ($gameOutcomeResolver->isDraw()) {
 //            $participantHasDrawnEvent = new ParticipantHasDrawn();
 //            $participantHasDrawnEvent = new ParticipantHasDrawn();
         } else {
-//            $participantHasWonEvent = new ParticipantHasWon();
+            $winner = $gameOutcomeResolver->getWinner();
+            $winner->recordPointsForWin($this, $gameOutcomeResolver);
+
 //            $participantHasLostEvent = new ParticipantHasLost()
         }
     }

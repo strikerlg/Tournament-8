@@ -2,7 +2,7 @@
 
 namespace Pstryk82\LeagueBundle\Domain\Aggregate;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Pstryk82\LeagueBundle\Event\TeamGainedRankPoints;
 use Pstryk82\LeagueBundle\Event\TeamWasCreated;
 use Pstryk82\LeagueBundle\EventEngine\EventSourced;
 use Pstryk82\LeagueBundle\Generator\IdGenerator;
@@ -43,9 +43,9 @@ class Team implements AggregateInterface
 
     /**
      *
-     * @param type $name
-     * @param type $rank
-     * @param type $stadium
+     * @param string $name
+     * @param int $rank
+     * @param string $stadium
      * 
      * @return $this
      */
@@ -54,7 +54,7 @@ class Team implements AggregateInterface
         $team = new self($aggregateId = IdGenerator::generate());
         $team
             ->setName($name)
-            ->setRank($rank)
+            ->addRank($rank)
             ->setStadium($stadium);
 
         $teamWasCreatedEvent = new TeamWasCreated(
@@ -70,7 +70,7 @@ class Team implements AggregateInterface
     {
         $this
             ->setName($event->getName())
-            ->setRank($event->getRank())
+            ->addRank($event->getRank())
             ->setStadium($event->getStadium());
     }
 
@@ -81,9 +81,31 @@ class Team implements AggregateInterface
      */
     public function registerInLeague($league)
     {
-        $participant = LeagueParticipant::create($this->aggregateId, $league->getAggregateId());
+        $participant = LeagueParticipant::create($this, $league->getAggregateId());
 
         return $participant;
+    }
+
+    /**
+     * @param int $numberOfAddedRankPoints
+     */
+    public function recordRankPoints($numberOfAddedRankPoints)
+    {
+        $teamGainedRankPoints = new TeamGainedRankPoints(
+            $this->aggregateId,
+            $numberOfAddedRankPoints,
+            new \DateTime()
+        );
+        $this->recordThat($teamGainedRankPoints);
+        $this->apply($teamGainedRankPoints);
+    }
+
+    /**
+     * @param TeamGainedRankPoints $event
+     */
+    private function applyTeamGainedRankPoints(TeamGainedRankPoints $event)
+    {
+        $this->addRank($event->getNumberOfAddedRankPoints());
     }
 
     public function setName($name)
@@ -93,9 +115,9 @@ class Team implements AggregateInterface
         return $this;
     }
 
-    public function setRank($rank)
+    public function addRank($rank)
     {
-        $this->rank = $rank;
+        $this->rank += $rank;
 
         return $this;
     }

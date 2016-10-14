@@ -10,9 +10,9 @@ abstract class AbstractParticipant implements AggregateInterface
     private $aggregateId;
 
     /**
-     * @var string
+     * @var Team
      */
-    private $teamId;
+    private $team;
 
     /**
      * @var string
@@ -34,14 +34,23 @@ abstract class AbstractParticipant implements AggregateInterface
         return $this->aggregateId;
     }
 
-    public function getTeamId()
+    /**
+     * @return Team
+     */
+    public function getTeam()
     {
-        return $this->teamId;
+        return $this->team;
     }
 
-    public function setTeamId($teamId)
+    /**
+     * @param Team $team
+     * 
+     * @return AbstractParticipant
+     */
+    public function setTeam(Team $team)
     {
-        $this->teamId = $teamId;
+        $this->team = $team;
+
         return $this;
     }
 

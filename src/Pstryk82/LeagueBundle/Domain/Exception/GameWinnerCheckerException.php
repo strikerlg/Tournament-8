@@ -2,6 +2,6 @@
 
 namespace Pstryk82\LeagueBundle\Domain\Exception;
 
-class GameWinnerCheckerException extends \Exception
+class GameOutcomeResolverException extends \Exception
 {
 }

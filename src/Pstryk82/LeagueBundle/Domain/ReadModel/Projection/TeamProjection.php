@@ -73,15 +73,13 @@ class TeamProjection
     }
 
     /**
-     * Set rank.
-     *
      * @param int $rank
      *
      * @return $this
      */
-    public function setRank($rank)
+    public function addRank($rank)
     {
-        $this->rank = $rank;
+        $this->rank += $rank;
 
         return $this;
     }

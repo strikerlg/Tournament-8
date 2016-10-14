@@ -3,6 +3,8 @@
 namespace Pstryk82\LeagueBundle\Command;
 
 use DateTime;
+use Pstryk82\LeagueBundle\Domain\Aggregate\AbstractParticipant;
+use Pstryk82\LeagueBundle\Domain\Aggregate\Competition;
 use Pstryk82\LeagueBundle\Domain\Aggregate\Game;
 use Pstryk82\LeagueBundle\Domain\Aggregate\History\LeagueHistory;
 use Pstryk82\LeagueBundle\Domain\Aggregate\History\ParticipantHistory;
@@ -10,6 +12,7 @@ use Pstryk82\LeagueBundle\Domain\Aggregate\History\TeamHistory;
 use Pstryk82\LeagueBundle\Domain\Aggregate\League;
 use Pstryk82\LeagueBundle\Domain\Aggregate\LeagueParticipant;
 use Pstryk82\LeagueBundle\Domain\Aggregate\Team;
+use Pstryk82\LeagueBundle\Domain\Exception\GameLogicException;
 use Pstryk82\LeagueBundle\EventEngine\EventBus;
 use Pstryk82\LeagueBundle\Storage\EventStorage;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -209,9 +212,20 @@ class LoadFixturesCommand extends ContainerAwareCommand
                 continue;
             }
         }
-        
+
+        foreach ($this->participants as $participant) {
+            $this->eventBus->dispatch($participant->getEvents());
+            $this->eventStorage->add($participant);
+            $this->eventBus->dispatch($participant->getTeam()->getEvents());
+            $this->eventStorage->add($participant->getTeam());
+        }
     }
 
+    /**
+     * @param AbstractParticipant $homeParticipant
+     * @param AbstractParticipant $awayParticipant
+     * @param Competition $league
+     */
     private function generateGameResults($homeParticipant, $awayParticipant, $league)
     {
         $game = Game::create(
@@ -225,5 +239,7 @@ class LoadFixturesCommand extends ContainerAwareCommand
 
         $this->eventBus->dispatch($game->getEvents());
         $this->eventStorage->add($game);
+
+
     }
 }

@@ -3,9 +3,11 @@
 namespace Pstryk82\LeagueBundle\Domain\Aggregate;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Pstryk82\LeagueBundle\Domain\Logic\GameOutcomeResolver;
 use Pstryk82\LeagueBundle\Event\LeagueParticipantWasCreated;
-use Pstryk82\LeagueBundle\Generator\IdGenerator;
+use Pstryk82\LeagueBundle\Event\ParticipantHasWon;
 use Pstryk82\LeagueBundle\EventEngine\EventSourced;
+use Pstryk82\LeagueBundle\Generator\IdGenerator;
 
 /**
  * Participant.
@@ -39,15 +41,16 @@ class LeagueParticipant extends AbstractParticipant
      */
     private $gamesPlayed = 0;
 
-    public static function create($teamId, $competitionId)
+    public static function create(Team $team, $competitionId)
+        // @todo consider passing Team and Competition objects here instead
     {
         $participant = new self($aggregateId = IdGenerator::generate());
         $participant
-            ->setTeamId($teamId)
+            ->setTeam($team)
             ->setCompetitionId($competitionId);
 
         $participantWasCreatedEvent = new LeagueParticipantWasCreated(
-            $aggregateId, $teamId, $competitionId, new \DateTime()
+            $aggregateId, $team, $competitionId, new \DateTime()
         );
 
         $participant->recordThat($participantWasCreatedEvent);
@@ -58,8 +61,38 @@ class LeagueParticipant extends AbstractParticipant
     private function applyLeagueParticipantWasCreated(LeagueParticipantWasCreated $event)
     {
         $this
-            ->setTeamId($event->getTeamId())
+            ->setTeam($event->getTeam())
             ->setCompetitionId($event->getLeagueId());
+    }
+
+    /**
+     * @param Game $game
+     * @param GameOutcomeResolver $gameOutcomeResolver
+     */
+    public function recordPointsForWin(Game $game, GameOutcomeResolver $gameOutcomeResolver)
+    {
+        $participantHasWonEvent = new ParticipantHasWon(
+            $game->getCompetition(),
+            $gameOutcomeResolver
+        );
+        $this->recordThat($participantHasWonEvent);
+        $this->apply($participantHasWonEvent);
+
+        $team = $this->getTeam();
+        $team->recordRankPoints($game->getCompetition()->getRankPointsForWin());
+    }
+
+    /**
+     * @param ParticipantHasWon $event
+     */
+    private function applyParticipantHasWon(ParticipantHasWon $event)
+    {
+        $this
+            ->addPoints($event->getCompetition()->getPointsForWin())
+            ->addGoalsFor($event->getGameOutcomeResolver()->getWinnerScore())
+            ->addGoalsAgainst($event->getGameOutcomeResolver()->getLoserScore())
+            ->addGamesPlayed(1)
+            ->addGoalDifference($this->goalsFor - $this->goalsAgainst);
     }
 
     /**
@@ -72,6 +105,13 @@ class LeagueParticipant extends AbstractParticipant
     public function setPoints($points)
     {
         $this->points = $points;
+
+        return $this;
+    }
+
+    public function addPoints($points)
+    {
+        $this->points += $points;
 
         return $this;
     }
@@ -110,6 +150,13 @@ class LeagueParticipant extends AbstractParticipant
         return $this->goalsFor;
     }
 
+    public function addGoalsFor($goalsFor)
+    {
+        $this->goalsFor += $goalsFor;
+
+        return $this;
+    }
+
     /**
      * Set goalsAgains.
      *
@@ -134,16 +181,21 @@ class LeagueParticipant extends AbstractParticipant
         return $this->goalsAgainst;
     }
 
+    public function addGoalsAgainst($goalsAgainst)
+    {
+        $this->goalsAgainst += $goalsAgainst;
+
+        return $this;
+    }
+
     /**
-     * Set goalDifference.
-     *
      * @param int $goalDifference
      *
      * @return LeagueParticipant
      */
-    public function setGoalDifference($goalDifference)
+    public function addGoalDifference($goalDifference)
     {
-        $this->goalDifference = $goalDifference;
+        $this->goalDifference += $goalDifference;
 
         return $this;
     }
@@ -165,9 +217,9 @@ class LeagueParticipant extends AbstractParticipant
      *
      * @return LeagueParticipant
      */
-    public function setGamesPlayed($gamesPlayed)
+    public function addGamesPlayed($gamesPlayed)
     {
-        $this->gamesPlayed = $gamesPlayed;
+        $this->gamesPlayed += $gamesPlayed;
 
         return $this;
     }
