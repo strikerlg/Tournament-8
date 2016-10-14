@@ -131,7 +131,10 @@ class Game implements AggregateInterface
         ;
     }
 
-
+    /**
+     * @param int $homeScore
+     * @param int $awayScore
+     */
     public function recordResult($homeScore, $awayScore)
     {
 
@@ -147,6 +150,8 @@ class Game implements AggregateInterface
         } else {
             $winner = $gameOutcomeResolver->getWinner();
             $winner->recordPointsForWin($this, $gameOutcomeResolver);
+            $loser = $gameOutcomeResolver->getLoser();
+            $loser->recordPointsForLose($this, $gameOutcomeResolver);
 
 //            $participantHasLostEvent = new ParticipantHasLost()
         }

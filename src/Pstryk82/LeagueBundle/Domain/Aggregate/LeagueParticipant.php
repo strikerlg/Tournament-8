@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Pstryk82\LeagueBundle\Domain\Logic\GameOutcomeResolver;
 use Pstryk82\LeagueBundle\Event\LeagueParticipantWasCreated;
 use Pstryk82\LeagueBundle\Event\ParticipantHasWon;
+use Pstryk82\LeagueBundle\Event\ParticipantHasLost;
 use Pstryk82\LeagueBundle\EventEngine\EventSourced;
 use Pstryk82\LeagueBundle\Generator\IdGenerator;
 
@@ -93,6 +94,36 @@ class LeagueParticipant extends AbstractParticipant
             ->addGoalsAgainst($event->getGameOutcomeResolver()->getLoserScore())
             ->addGamesPlayed(1)
             ->addGoalDifference($this->goalsFor - $this->goalsAgainst);
+    }
+
+    /**
+     * @param Game $game
+     * @param GameOutcomeResolver $gameOutcomeResolver
+     */
+    public function recordPointsForLose(Game $game, GameOutcomeResolver $gameOutcomeResolver)
+    {
+        $participantHasLostEvent = new ParticipantHasLost(
+            $game->getCompetition(),
+            $gameOutcomeResolver
+        );
+        $this->recordThat($participantHasLostEvent);
+        $this->apply($participantHasLostEvent);
+
+        $team = $this->getTeam();
+        $team->recordRankPoints($game->getCompetition()->getRankPointsForLose());
+    }
+
+    /**
+     * @param ParticipantHasWon $event
+     */
+    private function applyParticipantHasLost(ParticipantHasLost $event)
+    {
+        $this
+            ->addPoints($event->getCompetition()->getPointsForLose())
+            ->addGoalsFor($event->getGameOutcomeResolver()->getLoserScore())
+            ->addGoalsAgainst($event->getGameOutcomeResolver()->getWinnerScore())
+            ->addGamesPlayed(1)
+            ->addGoalDifference($this->goalsAgainst - $this->goalsFor);
     }
 
     /**

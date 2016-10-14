@@ -7,6 +7,7 @@ use Pstryk82\LeagueBundle\Domain\ReadModel\Projection\LeagueParticipantProjectio
 use Pstryk82\LeagueBundle\Domain\ReadModel\Projection\LeagueProjection;
 use Pstryk82\LeagueBundle\Domain\ReadModel\Projection\TeamProjection;
 use Pstryk82\LeagueBundle\Event\LeagueParticipantWasCreated;
+use Pstryk82\LeagueBundle\Event\ParticipantHasLost;
 use Pstryk82\LeagueBundle\Event\ParticipantHasWon;
 
 class LeagueParticipantEventListener extends AbstractEventListener
@@ -35,13 +36,11 @@ class LeagueParticipantEventListener extends AbstractEventListener
     {
         /* @var  $leagueParticipant LeagueParticipant */
         $leagueParticipant = $this->projectionStorage->find(
-            $event->getGameOutcomeResolver()->getWinner()->getAggregateId(),
-            LeagueParticipantProjection::class
+            $event->getGameOutcomeResolver()->getWinner()->getAggregateId(), LeagueParticipantProjection::class
         );
         /* @var $league LeagueProjection */
         $league = $this->projectionStorage->find(
-            $event->getCompetition()->getAggregateId(),
-            LeagueProjection::class
+            $event->getCompetition()->getAggregateId(), LeagueProjection::class
         );
         $leagueParticipant
             ->addPoints($league->getPointsForWin())
@@ -54,4 +53,30 @@ class LeagueParticipantEventListener extends AbstractEventListener
 
         $this->projectionStorage->save($leagueParticipant);
     }
+
+    /**
+     * @param ParticipantHasLost $event
+     */
+    public function onParticipantHasLost(ParticipantHasLost $event)
+    {
+        /* @var  $leagueParticipant LeagueParticipant */
+        $leagueParticipant = $this->projectionStorage->find(
+            $event->getGameOutcomeResolver()->getLoser()->getAggregateId(), LeagueParticipantProjection::class
+        );
+        /* @var $league LeagueProjection */
+        $league = $this->projectionStorage->find(
+            $event->getCompetition()->getAggregateId(), LeagueProjection::class
+        );
+        $leagueParticipant
+            ->addPoints($league->getPointsForLose())
+            ->addGoalsFor($event->getGameOutcomeResolver()->getLoserScore())
+            ->addGoalsAgainst($event->getGameOutcomeResolver()->getWinnerScore())
+            ->addGoalDifference(
+                $event->getGameOutcomeResolver()->getLoserScore() - $event->getGameOutcomeResolver()->getWinnerScore()
+            )
+            ->addGamesPlayed(1);
+
+        $this->projectionStorage->save($leagueParticipant);
+    }
+
 }
