@@ -29,6 +29,11 @@ class GameOutcomeResolver
     private $loserScore;
 
     /**
+     * @var int | null
+     */
+    private $drawScore;
+
+    /**
      * @var bool
      */
     private $draw;
@@ -62,6 +67,7 @@ class GameOutcomeResolver
             $this->draw = false;
         } else {
             $this->draw = true;
+            $this->drawScore = $homeScore;
         }
     }
 
@@ -103,5 +109,13 @@ class GameOutcomeResolver
     public function getLoserScore()
     {
         return $this->loserScore;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDrawScore()
+    {
+        return $this->drawScore;
     }
 }

@@ -6,7 +6,6 @@ use Pstryk82\LeagueBundle\Domain\Exception\GameLogicException;
 use Pstryk82\LeagueBundle\Domain\Logic\GameOutcomeResolver;
 use Pstryk82\LeagueBundle\Event\GameWasPlanned;
 use Pstryk82\LeagueBundle\Event\GameWasPlayed;
-use Pstryk82\LeagueBundle\Event\ParticipantHasWon;
 use Pstryk82\LeagueBundle\EventEngine\EventSourced;
 use Pstryk82\LeagueBundle\Generator\IdGenerator;
 
@@ -145,15 +144,13 @@ class Game implements AggregateInterface
         $gameOutcomeResolver = new GameOutcomeResolver();
         $gameOutcomeResolver->determine($this);
         if ($gameOutcomeResolver->isDraw()) {
-//            $participantHasDrawnEvent = new ParticipantHasDrawn();
-//            $participantHasDrawnEvent = new ParticipantHasDrawn();
+            $this->homeParticipant->recordPointsForDraw($this, $gameOutcomeResolver->getDrawScore());
+            $this->awayParticipant->recordPointsForDraw($this, $gameOutcomeResolver->getDrawScore());
         } else {
             $winner = $gameOutcomeResolver->getWinner();
             $winner->recordPointsForWin($this, $gameOutcomeResolver);
             $loser = $gameOutcomeResolver->getLoser();
             $loser->recordPointsForLose($this, $gameOutcomeResolver);
-
-//            $participantHasLostEvent = new ParticipantHasLost()
         }
     }
 

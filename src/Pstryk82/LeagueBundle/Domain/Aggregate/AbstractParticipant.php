@@ -7,22 +7,22 @@ abstract class AbstractParticipant implements AggregateInterface
     /**
      * @var int
      */
-    private $aggregateId;
+    protected $aggregateId;
 
     /**
      * @var Team
      */
-    private $team;
+    protected $team;
 
     /**
      * @var string
      */
-    private $competitionId;
+    protected $competitionId;
 
     /**
      * @var array
      */
-    private $games = [];
+    protected $games = [];
 
     public function __construct($aggregateId)
     {

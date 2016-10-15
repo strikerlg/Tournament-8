@@ -5,8 +5,9 @@ namespace Pstryk82\LeagueBundle\Domain\Aggregate;
 use Doctrine\Common\Collections\ArrayCollection;
 use Pstryk82\LeagueBundle\Domain\Logic\GameOutcomeResolver;
 use Pstryk82\LeagueBundle\Event\LeagueParticipantWasCreated;
-use Pstryk82\LeagueBundle\Event\ParticipantHasWon;
+use Pstryk82\LeagueBundle\Event\ParticipantHasDrawn;
 use Pstryk82\LeagueBundle\Event\ParticipantHasLost;
+use Pstryk82\LeagueBundle\Event\ParticipantHasWon;
 use Pstryk82\LeagueBundle\EventEngine\EventSourced;
 use Pstryk82\LeagueBundle\Generator\IdGenerator;
 
@@ -124,6 +125,33 @@ class LeagueParticipant extends AbstractParticipant
             ->addGoalsAgainst($event->getGameOutcomeResolver()->getWinnerScore())
             ->addGamesPlayed(1)
             ->addGoalDifference($this->goalsAgainst - $this->goalsFor);
+    }
+
+    
+    public function recordPointsForDraw(Game $game, $drawScore)
+    {
+        $participantHasDrawnEvent = new ParticipantHasDrawn(
+            $game->getCompetition(),
+            $this->aggregateId,
+            $drawScore
+        );
+        $this->recordThat($participantHasDrawnEvent);
+        $this->apply($participantHasDrawnEvent);
+
+        $team = $this->getTeam();
+        $team->recordRankPoints($game->getCompetition()->getRankPointsForDraw());
+    }
+
+    /**
+     * @param ParticipantHasDrawn $event
+     */
+    private function applyParticipantHasDrawn(ParticipantHasDrawn $event)
+    {
+        $this
+            ->addPoints($event->getCompetition()->getPointsForDraw())
+            ->addGoalsFor($event->getDrawScore())
+            ->addGoalsAgainst($event->getDrawScore())
+            ->addGamesPlayed(1);
     }
 
     /**

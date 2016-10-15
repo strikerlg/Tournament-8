@@ -7,6 +7,7 @@ use Pstryk82\LeagueBundle\Domain\ReadModel\Projection\LeagueParticipantProjectio
 use Pstryk82\LeagueBundle\Domain\ReadModel\Projection\LeagueProjection;
 use Pstryk82\LeagueBundle\Domain\ReadModel\Projection\TeamProjection;
 use Pstryk82\LeagueBundle\Event\LeagueParticipantWasCreated;
+use Pstryk82\LeagueBundle\Event\ParticipantHasDrawn;
 use Pstryk82\LeagueBundle\Event\ParticipantHasLost;
 use Pstryk82\LeagueBundle\Event\ParticipantHasWon;
 
@@ -79,4 +80,25 @@ class LeagueParticipantEventListener extends AbstractEventListener
         $this->projectionStorage->save($leagueParticipant);
     }
 
+    /**
+     * @param ParticipantHasWon $event
+     */
+    public function onParticipantHasDrawn(ParticipantHasDrawn $event)
+    {
+        /* @var  $leagueParticipant LeagueParticipant */
+        $leagueParticipant = $this->projectionStorage->find(
+            $event->getAggregateId(), LeagueParticipantProjection::class
+        );
+        /* @var $league LeagueProjection */
+        $league = $this->projectionStorage->find(
+            $event->getCompetition()->getAggregateId(), LeagueProjection::class
+        );
+        $leagueParticipant
+            ->addPoints($league->getPointsForDraw())
+            ->addGoalsFor($event->getDrawScore())
+            ->addGoalsAgainst($event->getDrawScore())
+            ->addGamesPlayed(1);
+
+        $this->projectionStorage->save($leagueParticipant);
+    }
 }

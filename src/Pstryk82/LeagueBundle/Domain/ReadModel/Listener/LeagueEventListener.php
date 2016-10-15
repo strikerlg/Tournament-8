@@ -17,8 +17,6 @@ class LeagueEventListener extends AbstractEventListener
             ->setName($event->getName())
             ->setSeason($event->getSeason());
 
-//        var_dump($leagueProjection); die;
-
         $this->projectionStorage->save($leagueProjection);
     }
 
