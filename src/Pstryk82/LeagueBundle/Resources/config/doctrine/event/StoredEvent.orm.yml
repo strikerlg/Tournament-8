@@ -1,0 +1,25 @@
+Pstryk82\LeagueBundle\Entity\StoredEvent:
+    type: entity
+    table: null
+    repositoryClass: Pstryk82\LeagueBundle\Repository\StoredEventRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        aggregateId:
+            type: string
+            length: '13'
+            unique: false
+            options:
+                fixed: true
+        aggregateClass:
+            type: string
+            length: 255
+        event:
+            type: text
+        happenedAt:
+            type: datetime
+    lifecycleCallbacks: {  }

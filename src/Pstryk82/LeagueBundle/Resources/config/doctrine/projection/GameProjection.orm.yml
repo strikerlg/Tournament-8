@@ -1,0 +1,46 @@
+Pstryk82\LeagueBundle\Domain\ReadModel\Projection\GameProjection:
+    type: entity
+    table: game
+    repositoryClass: Pstryk82\LeagueBundle\Repository\GameProjectionRepository
+    id:
+        id:
+            type: string
+            id: true
+            generator:
+                strategy: NONE
+            options:
+                fixed: true
+
+    fields:
+        played:
+            type: boolean
+        homeScore:
+            type: integer
+            nullable: true
+        awayScore:
+            type: integer
+            nullable: true
+        onNeutralGround:
+            type: boolean
+        beginningTime:
+            type: datetime
+            nullable: true
+    manyToOne:
+        competition:
+            targetEntity: Pstryk82\LeagueBundle\Domain\ReadModel\Projection\CompetitionProjection
+            inversedBy: games
+        homeParticipant:
+            targetEntity: Pstryk82\LeagueBundle\Domain\ReadModel\Projection\AbstractParticipantProjection
+            inversedBy: games
+            joinColumn:
+                onDelete: set null
+        awayParticipant:
+            targetEntity: Pstryk82\LeagueBundle\Domain\ReadModel\Projection\AbstractParticipantProjection
+            inversedBy: games
+            joinColumn:
+                onDelete: set null
+            
+    lifecycleCallbacks: {  }
+
+
+

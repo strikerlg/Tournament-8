@@ -1,0 +1,42 @@
+Pstryk82\LeagueBundle\Domain\ReadModel\Projection\CompetitionProjection:
+    type: entity
+    table: competition
+    repositoryClass: Pstryk82\LeagueBundle\Repository\CompetitionProjectionRepository
+    inheritanceType: JOINED
+    discriminatorColumn:
+        name: discriminator
+        type: string
+        length: 255
+    id:
+        id:
+            type: string
+            id: true
+            generator:
+                strategy: NONE
+    fields:
+        name:
+            type: string
+            length: '100'
+        season:
+            type: string
+            length: '10'
+            nullable: true
+        rankPointsForWin:
+            type: smallint
+            nullable: true
+        rankPointsForDraw:
+            type: smallint
+            nullable: true
+        rankPointsForLose:
+            type: smallint
+            nullable: true
+    
+    oneToMany:
+        participants:
+            targetEntity: Pstryk82\LeagueBundle\Domain\ReadModel\Projection\AbstractParticipantProjection
+            mappedBy: competition
+        games:
+            targetEntity: Pstryk82\LeagueBundle\Domain\ReadModel\Projection\GameProjection
+            mappedBy: competition
+
+    lifecycleCallbacks: {  }

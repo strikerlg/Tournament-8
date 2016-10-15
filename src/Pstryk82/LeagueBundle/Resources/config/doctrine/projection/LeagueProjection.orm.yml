@@ -1,0 +1,14 @@
+Pstryk82\LeagueBundle\Domain\ReadModel\Projection\LeagueProjection:
+    type: entity
+    table: league
+    repositoryClass: Pstryk82\LeagueBundle\Repository\LeagueProjectionRepository
+    fields:
+        pointsForWin:
+            type: smallint
+        pointsForDraw:
+            type: smallint
+        pointsForLose:
+            type: smallint
+        numberOfLegs:
+            type: smallint
+    lifecycleCallbacks: {  }
