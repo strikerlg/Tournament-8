@@ -44,11 +44,6 @@ class Game implements AggregateInterface
     private $awayScore;
 
     /**
-     * @var AbstractParticipant
-     */
-    private $winner;
-
-    /**
      * @var Competition
      */
     private $competition;
@@ -136,7 +131,6 @@ class Game implements AggregateInterface
      */
     public function recordResult($homeScore, $awayScore)
     {
-
         $gameWasPlayedEvent = new GameWasPlayed($this->aggregateId, $homeScore, $awayScore, new \DateTime());
         $this->recordThat($gameWasPlayedEvent);
         $this->apply($gameWasPlayedEvent);
@@ -285,30 +279,6 @@ class Game implements AggregateInterface
     public function getAwayScore()
     {
         return $this->awayScore;
-    }
-
-    /**
-     * Set winner.
-     *
-     * @param AbstractParticipant $winner
-     *
-     * @return Game
-     */
-    public function setWinner(AbstractParticipant $winner)
-    {
-        $this->winner = $winner;
-
-        return $this;
-    }
-
-    /**
-     * Get winner.
-     *
-     * @return string
-     */
-    public function getWinner()
-    {
-        return $this->winner;
     }
 
     /**

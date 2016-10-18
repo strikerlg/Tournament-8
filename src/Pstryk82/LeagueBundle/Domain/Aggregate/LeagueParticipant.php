@@ -44,7 +44,6 @@ class LeagueParticipant extends AbstractParticipant
     private $gamesPlayed = 0;
 
     public static function create(Team $team, $competitionId)
-        // @todo consider passing Team and Competition objects here instead
     {
         $participant = new self($aggregateId = IdGenerator::generate());
         $participant
