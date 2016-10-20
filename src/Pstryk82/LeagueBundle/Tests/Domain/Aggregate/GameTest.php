@@ -6,9 +6,10 @@ use Pstryk82\LeagueBundle\Domain\Aggregate\Competition;
 use Pstryk82\LeagueBundle\Domain\Aggregate\Game;
 use Pstryk82\LeagueBundle\Domain\Aggregate\LeagueParticipant;
 use Pstryk82\LeagueBundle\Domain\Exception\GameLogicException;
+use Pstryk82\LeagueBundle\Event\GameWasPlanned;
 use Pstryk82\LeagueBundle\Event\GameWasPlayed;
 
-class GameTest extends \PHPUnit_Framework_TestCase
+class GameTest extends AbstractDomainObjectTest
 {
     /**
      * @var Game
@@ -48,13 +49,15 @@ class GameTest extends \PHPUnit_Framework_TestCase
     {
         $competition = $this->getMockBuilder(Competition::class)->disableOriginalConstructor()->getMock();
         $now = new \DateTIme();
-        $game = Game::create($this->homeParticipant, $this->awayParticipant, $competition, $now);
+        $this->game = Game::create($this->homeParticipant, $this->awayParticipant, $competition, $now);
 
-        $this->assertEquals($this->homeParticipant, $game->getHomeParticipant());
-        $this->assertEquals($this->awayParticipant, $game->getAwayParticipant());
-        $this->assertEquals($competition, $game->getCompetition());
-        $this->assertEquals($now, $game->getBeginningTime());
-        $this->assertFalse($game->getOnNeutralGround());
+        $this->assertEquals($this->homeParticipant, $this->game->getHomeParticipant());
+        $this->assertEquals($this->awayParticipant, $this->game->getAwayParticipant());
+        $this->assertEquals($competition, $this->game->getCompetition());
+        $this->assertEquals($now, $this->game->getBeginningTime());
+        $this->assertFalse($this->game->getOnNeutralGround());
+
+        $this->assertEventOnDomainObjectWasCreated($this->game, GameWasPlanned::class);
     }
 
     public function testCreateShouldFail()
@@ -75,9 +78,8 @@ class GameTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $this->game->getHomeScore());
         $this->assertEquals(1, $this->game->getAwayScore());
         $this->assertTrue($this->game->getPlayed());
-        $events = $this->game->getEvents();
-        $this->assertInstanceOf(GameWasPlayed::class, reset($events));
-        $this->assertEquals($this->game->getAggregateId(), reset($events)->getAggregateId());
+
+        $this->assertEventOnDomainObjectWasCreated($this->game, GameWasPlayed::class);
     }
 
     public function testRecordResultNotDraw()
@@ -89,9 +91,7 @@ class GameTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, $this->game->getHomeScore());
         $this->assertEquals(0, $this->game->getAwayScore());
         $this->assertTrue($this->game->getPlayed());
-        $events = $this->game->getEvents();
-        $this->assertInstanceOf(GameWasPlayed::class, reset($events));
-        $this->assertEquals('gameId', reset($events)->getAggregateId());
-    }
 
+        $this->assertEventOnDomainObjectWasCreated($this->game, GameWasPlayed::class);
+    }
 }

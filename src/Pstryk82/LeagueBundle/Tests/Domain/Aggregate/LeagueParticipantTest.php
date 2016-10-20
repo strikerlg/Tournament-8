@@ -12,7 +12,7 @@ use Pstryk82\LeagueBundle\Event\ParticipantHasDrawn;
 use Pstryk82\LeagueBundle\Event\ParticipantHasLost;
 use Pstryk82\LeagueBundle\Event\ParticipantHasWon;
 
-class LeagueParticipantTest extends \PHPUnit_Framework_TestCase
+class LeagueParticipantTest extends AbstractDomainObjectTest
 {
     /**
      * @var LeagueParticipant
@@ -67,15 +67,12 @@ class LeagueParticipantTest extends \PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $participant = LeagueParticipant::create($this->teamMock, $this->competitionMock->getAggregateId());
+        $this->participant = LeagueParticipant::create($this->teamMock, $this->competitionMock->getAggregateId());
 
-        $this->assertEquals($participant->getTeam(), $this->teamMock);
-        $this->assertEquals($participant->getCompetitionId(), $this->competitionMock->getAggregateId());
+        $this->assertEquals($this->participant->getTeam(), $this->teamMock);
+        $this->assertEquals($this->participant->getCompetitionId(), $this->competitionMock->getAggregateId());
 
-        $events = $participant->getEvents();
-        $event = reset($events);
-        $this->assertInstanceOf(LeagueParticipantWasCreated::class, $event);
-        $this->assertEquals($participant->getAggregateId(), $event->getAggregateId());
+        $this->assertEventOnDomainObjectWasCreated($this->participant, LeagueParticipantWasCreated::class);
     }
 
     public function testRecordPointsForWin()
@@ -86,13 +83,9 @@ class LeagueParticipantTest extends \PHPUnit_Framework_TestCase
 
         $this->competitionMock->expects($this->once())->method('getPointsForWin');
 
-
         $this->participant->recordPointsForWin($this->gameMock, $this->gameOutcomeResolverMock);
 
-        $events = $this->participant->getEvents();
-        $event = reset($events);
-        $this->assertInstanceOf(ParticipantHasWon::class, $event);
-        $this->assertEquals($this->participant->getAggregateId(), $event->getAggregateId());
+        $this->assertEventOnDomainObjectWasCreated($this->participant, ParticipantHasWon::class);
     }
 
     public function testRecordPointsForLose()
@@ -103,13 +96,8 @@ class LeagueParticipantTest extends \PHPUnit_Framework_TestCase
 
         $this->competitionMock->expects($this->once())->method('getPointsForLose');
 
-
         $this->participant->recordPointsForLose($this->gameMock, $this->gameOutcomeResolverMock);
-
-        $events = $this->participant->getEvents();
-        $event = reset($events);
-        $this->assertInstanceOf(ParticipantHasLost::class, $event);
-        $this->assertEquals($this->participant->getAggregateId(), $event->getAggregateId());
+        $this->assertEventOnDomainObjectWasCreated($this->participant, ParticipantHasLost::class);
     }
 
     public function testRecordPointsForDraw()
@@ -118,10 +106,7 @@ class LeagueParticipantTest extends \PHPUnit_Framework_TestCase
 
         $this->participant->recordPointsForDraw($this->gameMock, 2);
 
-        $events = $this->participant->getEvents();
-        $event = reset($events);
-        $this->assertInstanceOf(ParticipantHasDrawn::class, $event);
-        $this->assertEquals($this->participant->getAggregateId(), $event->getAggregateId());
+        $this->assertEventOnDomainObjectWasCreated($this->participant, ParticipantHasDrawn::class);
     }
 
 }
