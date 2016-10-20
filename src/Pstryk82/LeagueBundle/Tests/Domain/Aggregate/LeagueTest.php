@@ -27,6 +27,7 @@ class LeagueTest extends AbstractDomainObjectTest
         );
 
         $this->assertEventOnDomainObjectWasCreated($this->league, LeagueWasCreated::class);
+        $this->assertEquals(-1, $this->league->getRankPointsForLose());
     }
 
     public function testFinish()
@@ -34,5 +35,6 @@ class LeagueTest extends AbstractDomainObjectTest
         $this->league->finish();
 
         $this->assertEventOnDomainObjectWasCreated($this->league, LeagueWasFinished::class);
+        $this->assertTrue($this->league->getFinished());
     }
 }

@@ -4,6 +4,7 @@ namespace Pstryk82\LeagueBundle\Tests\Domain\Aggregate;
 
 use Pstryk82\LeagueBundle\Domain\Aggregate\Competition;
 use Pstryk82\LeagueBundle\Domain\Aggregate\Game;
+use Pstryk82\LeagueBundle\Domain\Aggregate\History\AggregateHistoryInterface;
 use Pstryk82\LeagueBundle\Domain\Aggregate\LeagueParticipant;
 use Pstryk82\LeagueBundle\Domain\Exception\GameLogicException;
 use Pstryk82\LeagueBundle\Event\GameWasPlanned;
@@ -42,7 +43,7 @@ class GameTest extends AbstractDomainObjectTest
 
     public function tearDown()
     {
-        unset($this->game);
+        unset($this->game, $this->homeParticipant, $this->awayParticipant);
     }
 
     public function testCreate()
