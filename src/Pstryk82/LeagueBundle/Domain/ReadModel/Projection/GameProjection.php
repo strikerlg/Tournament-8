@@ -57,9 +57,9 @@ class GameProjection
         $this->id = $id;
     }
 
-    public function getAggregateId()
+    public function getId()
     {
-        return $this->aggregateId;
+        return $this->id;
     }
 
     public function getPlayed()
