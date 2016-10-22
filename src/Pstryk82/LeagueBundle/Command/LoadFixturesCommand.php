@@ -83,6 +83,7 @@ class LoadFixturesCommand extends ContainerAwareCommand
         $this->executeTeamsFixtures();
         $this->executeParticipantsFixtures();
         $this->executeGamesFixtures();
+        $this->executeFinishLeague();
 
         $output->writeln(
             sprintf(
@@ -242,4 +243,14 @@ class LoadFixturesCommand extends ContainerAwareCommand
 
 
     }
+
+    public function executeFinishLeague()
+    {
+        $leagueHistory = new LeagueHistory($this->leagueId, $this->eventStorage);
+        $league = League::reconstituteFrom($leagueHistory);
+        $league->finish();
+        $this->eventBus->dispatch($league->getEvents());
+        $this->eventStorage->add($league);
+    }
+
 }

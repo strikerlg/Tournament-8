@@ -119,7 +119,7 @@ class League extends Competition implements AggregateInterface
     private function applyLeagueWasFinished(LeagueWasFinished $event)
     {
         $this
-            ->setFinished(true);
+            ->setFinished($event->getFinished());
     }
 
     

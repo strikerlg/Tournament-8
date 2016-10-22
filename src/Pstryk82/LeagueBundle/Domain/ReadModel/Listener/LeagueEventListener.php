@@ -8,6 +8,9 @@ use Pstryk82\LeagueBundle\Event\LeagueWasFinished;
 
 class LeagueEventListener extends AbstractEventListener
 {
+    /**
+     * @param LeagueWasCreated $event
+     */
     public function onLeagueWasCreated(LeagueWasCreated $event)
     {
         $leagueProjection = new LeagueProjection(
@@ -20,9 +23,15 @@ class LeagueEventListener extends AbstractEventListener
         $this->projectionStorage->save($leagueProjection);
     }
 
+    /**
+     * @param LeagueWasFinished $event
+     */
     public function onLeagueWasFinished(LeagueWasFinished $event)
     {
-//        $leagueProjection = $this->projectionStorage->find($event->getLeagueId());
-
+        $leagueProjection = $this->projectionStorage->find(
+            $event->getAggregateId(), LeagueProjection::class
+        );
+        $leagueProjection->setFinished($event->getFinished());
+        $this->projectionStorage->save($leagueProjection);
     }
 }
