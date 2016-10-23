@@ -35,18 +35,18 @@ abstract class AbstractEventListnerTest extends \PHPUnit_Framework_TestCase
         unset($this->eventBusMock, $this->projectionStorageMock, $this->now);
     }
 
-    protected function assertProjectionSaved($projection)
+    protected function assertProjectionSaved($projection, $callNo = 0)
     {
         $this->projectionStorageMock
-            ->expects($this->once())
+            ->expects($this->at($callNo))
             ->method('save')
             ->with($projection);
     }
 
-    protected function assertProjectionFound($projection, $projectionClass)
+    protected function assertProjectionFound($projection, $projectionClass, $callNo = 0)
     {
         $this->projectionStorageMock
-            ->expects($this->once())
+            ->expects($this->at($callNo))
             ->method('find')
             ->with($projection->getId(), $projectionClass)
             ->willReturn($projection);

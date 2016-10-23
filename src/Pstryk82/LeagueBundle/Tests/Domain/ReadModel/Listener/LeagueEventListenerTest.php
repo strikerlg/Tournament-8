@@ -45,8 +45,8 @@ class LeagueEventListenerTest extends AbstractEventListnerTest
         $event = new LeagueWasFinished('league', $this->now);
         $leagueProjection = new LeagueProjection('league');
 
-        $this->assertProjectionFound($leagueProjection, LeagueProjection::class);
-        $this->assertProjectionSaved($leagueProjection);
+        $this->assertProjectionFound($leagueProjection, LeagueProjection::class, 0);
+        $this->assertProjectionSaved($leagueProjection, 1);
 
         $this->listener->when($event);
         $this->assertTrue($leagueProjection->getFinished());

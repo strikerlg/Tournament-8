@@ -49,8 +49,8 @@ class TeamEventListenerTest extends AbstractEventListnerTest
         $teamProjection = new TeamProjection('teamId');
         $teamProjection->addRank(100);
 
-        $this->assertProjectionFound($teamProjection, TeamProjection::class);
-        $this->assertProjectionSaved($teamProjection);
+        $this->assertProjectionFound($teamProjection, TeamProjection::class, 0);
+        $this->assertProjectionSaved($teamProjection, 1);
 
         $this->listener->when($event);
 
