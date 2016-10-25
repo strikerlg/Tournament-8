@@ -2,8 +2,6 @@
 
 namespace Pstryk82\LeagueBundle\Domain\Aggregate;
 
-use Doctrine\Common\Collections\ArrayCollection;
-
 /**
  * Competition.
  */

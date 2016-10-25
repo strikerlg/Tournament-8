@@ -25,6 +25,11 @@ class LeagueProjection extends CompetitionProjection
     private $numberOfLegs = 2;
 
     /**
+     * @var bool
+     */
+    private $finished = false;
+
+    /**
      * Set pointsForWin.
      *
      * @param int $pointsForWin
@@ -118,5 +123,24 @@ class LeagueProjection extends CompetitionProjection
     public function getNumberOfLegs()
     {
         return $this->numberOfLegs;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getFinished()
+    {
+        return $this->finished;
+    }
+
+    /**
+     * @param bool $finished
+     *
+     * @return $this
+     */
+    public function setFinished($finished)
+    {
+        $this->finished = $finished;
+        return $this;
     }
 }

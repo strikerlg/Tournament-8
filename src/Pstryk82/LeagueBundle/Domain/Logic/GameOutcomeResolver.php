@@ -49,8 +49,10 @@ class GameOutcomeResolver
     {
         $homeScore = $game->getHomeScore();
         $awayScore = $game->getAwayScore();
-        if (is_null($homeScore) || is_null($awayScore)) {
-            throw new GameOutcomeResolverException('Unable to determine winner, there is no score yet');
+        if (is_null($homeScore) || is_null($awayScore) || !$game->getPlayed()) {
+            throw new GameOutcomeResolverException(
+                'Unable to determine winner, there is no score or game has not finished yet'
+            );
         }
 
         if ($homeScore > $awayScore) {

@@ -19,6 +19,9 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * {@codeCoverageIgnore}
+ */
 class LoadFixturesCommand extends ContainerAwareCommand
 {
     /**
@@ -83,6 +86,7 @@ class LoadFixturesCommand extends ContainerAwareCommand
         $this->executeTeamsFixtures();
         $this->executeParticipantsFixtures();
         $this->executeGamesFixtures();
+        $this->executeFinishLeague();
 
         $output->writeln(
             sprintf(
@@ -242,4 +246,14 @@ class LoadFixturesCommand extends ContainerAwareCommand
 
 
     }
+
+    public function executeFinishLeague()
+    {
+        $leagueHistory = new LeagueHistory($this->leagueId, $this->eventStorage);
+        $league = League::reconstituteFrom($leagueHistory);
+        $league->finish();
+        $this->eventBus->dispatch($league->getEvents());
+        $this->eventStorage->add($league);
+    }
+
 }

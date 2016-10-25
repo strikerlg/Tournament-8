@@ -12,11 +12,11 @@ class GameEventListener extends AbstractEventListener
 {
     public function onGameWasPlanned(GameWasPlanned $event)
     {
-        $homeParticipant = $this->projectionStorage->find(
+        $homeParticipantProjection = $this->projectionStorage->find(
             $event->getHomeParticipant()->getAggregateId(),
             AbstractParticipantProjection::class
         );
-        $awayParticipant = $this->projectionStorage->find(
+        $awayParticipantProjection = $this->projectionStorage->find(
             $event->getAwayParticipant()->getAggregateId(),
             AbstractParticipantProjection::class
         );
@@ -27,8 +27,8 @@ class GameEventListener extends AbstractEventListener
 
         $gameProjection = new GameProjection($event->getAggregateId());
         $gameProjection
-            ->setHomeParticipant($homeParticipant)
-            ->setAwayParticipant($awayParticipant)
+            ->setHomeParticipant($homeParticipantProjection)
+            ->setAwayParticipant($awayParticipantProjection)
             ->setCompetition($competitionProjection)
             ->setBeginningTime($event->getBeginningTime())
             ->setOnNeutralGround($event->getOnNeutralGround())

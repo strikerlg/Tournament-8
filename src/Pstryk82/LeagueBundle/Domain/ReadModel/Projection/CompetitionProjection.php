@@ -149,28 +149,6 @@ abstract class CompetitionProjection
     }
 
     /**
-     * Set discriminator.
-     *
-     * @param string $discriminator
-     *
-     * @return Competition
-     */
-    public function setDiscriminator($discriminator)
-    {
-        $this->discriminator = $discriminator;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDiscriminator()
-    {
-        return $this->discriminator;
-    }
-
-    /**
      * @return int
      */
     public function getRankPointsForWin()
