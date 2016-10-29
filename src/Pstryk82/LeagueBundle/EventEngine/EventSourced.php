@@ -29,7 +29,7 @@ trait EventSourced
     /**
      * @param AbstractEvent $event
      */
-    private function apply(AbstractEvent $event)
+    protected function apply(AbstractEvent $event)
     {
         $method = explode('\\', get_class($event));
         $method = 'apply' . end($method);

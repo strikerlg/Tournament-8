@@ -2,10 +2,13 @@
 
 namespace Pstryk82\LeagueBundle\Tests\Domain\ReadModel\Listener;
 
+use Pstryk82\LeagueBundle\Domain\Aggregate\LeagueParticipant;
 use Pstryk82\LeagueBundle\Domain\ReadModel\Listener\LeagueEventListener;
+use Pstryk82\LeagueBundle\Domain\ReadModel\Projection\LeagueParticipantProjection;
 use Pstryk82\LeagueBundle\Domain\ReadModel\Projection\LeagueProjection;
 use Pstryk82\LeagueBundle\Event\LeagueWasCreated;
 use Pstryk82\LeagueBundle\Event\LeagueWasFinished;
+use Pstryk82\LeagueBundle\Event\ParticipantWasRegisteredInCompetition;
 
 class LeagueEventListenerTest extends AbstractEventListnerTest
 {
@@ -50,5 +53,22 @@ class LeagueEventListenerTest extends AbstractEventListnerTest
 
         $this->listener->when($event);
         $this->assertTrue($leagueProjection->getFinished());
+    }
+
+    public function testOnParticipantWasRegisteredInCompetition()
+    {
+        $participant = new LeagueParticipant('participant');
+        $event = new ParticipantWasRegisteredInCompetition($participant, 'leagueId');
+
+        $leagueProjection = new LeagueProjection('leagueId');
+        $this->assertProjectionFound($leagueProjection, LeagueProjection::class, 0);
+
+        $participantProjection = new LeagueParticipantProjection('participant');
+        $this->assertProjectionFound($participantProjection, LeagueParticipantProjection::class, 1);
+
+        $this->assertProjectionSaved($leagueProjection, 2);
+
+        $this->listener->when($event);
+        $this->assertCount(1, $leagueProjection->getParticipants());
     }
 }

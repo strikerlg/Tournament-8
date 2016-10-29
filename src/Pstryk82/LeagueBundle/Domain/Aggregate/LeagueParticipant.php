@@ -53,7 +53,6 @@ class LeagueParticipant extends AbstractParticipant
         $participantWasCreatedEvent = new LeagueParticipantWasCreated(
             $aggregateId, $team, $league, new \DateTime()
         );
-
         $participant->recordThat($participantWasCreatedEvent);
 
         return $participant;

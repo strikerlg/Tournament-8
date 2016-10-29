@@ -38,15 +38,15 @@ class League extends Competition implements AggregateInterface
     
     /**
      *
-     * @param type $name
-     * @param type $season
-     * @param type $rankPointsForWin
-     * @param type $rankPointsForDraw
-     * @param type $rankPointsForLose
-     * @param type $pointsForWin
-     * @param type $pointsForDraw
-     * @param type $pointsForLose
-     * @param type $numberOfLegs
+     * @param string $name
+     * @param string $season
+     * @param int $rankPointsForWin
+     * @param int $rankPointsForDraw
+     * @param int $rankPointsForLose
+     * @param int $pointsForWin
+     * @param int $pointsForDraw
+     * @param int $pointsForLose
+     * @param int $numberOfLegs
      * 
      * @return $this
      */
@@ -122,7 +122,6 @@ class League extends Competition implements AggregateInterface
             ->setFinished($event->getFinished());
     }
 
-    
     /**
      * Set pointsForWin.
      *

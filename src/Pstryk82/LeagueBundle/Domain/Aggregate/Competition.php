@@ -2,11 +2,17 @@
 
 namespace Pstryk82\LeagueBundle\Domain\Aggregate;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Pstryk82\LeagueBundle\Event\ParticipantWasRegisteredInCompetition;
+use Pstryk82\LeagueBundle\EventEngine\EventSourced;
+
 /**
  * Competition.
  */
 abstract class Competition
 {
+//    use EventSourced;
+
     /**
      * @var int
      */
@@ -15,38 +21,61 @@ abstract class Competition
     /**
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      */
-    private $season;
+    protected $season;
 
     /**
      * @var int
      */
-    private $rankPointsForWin;
+    protected $rankPointsForWin;
 
     /**
      * @var int
      */
-    private $rankPointsForDraw;
+    protected $rankPointsForDraw;
 
     /**
      * @var int
      */
-    private $rankPointsForLose;
+    protected $rankPointsForLose;
     
     /**
      * @var \DateTime
      */
-    private $creationDate;
+    protected $creationDate;
+
+    /**
+     * @var ArrayCollection
+     */
+    protected $participants;
 
     public function __construct($aggregateId)
     {
         $this->aggregateId = $aggregateId;
+        $this->participants = new ArrayCollection();
     }
-    
+
+    /**
+     * @param LeagueParticipant $participant
+     */
+    public function registerParticipant(AbstractParticipant $participant)
+    {
+        $participantWasRegisteredInCompetition = new ParticipantWasRegisteredInCompetition(
+            $participant, $this->getAggregateId()
+        );
+        $this->recordThat($participantWasRegisteredInCompetition);
+        $this->apply($participantWasRegisteredInCompetition);
+    }
+
+    protected function applyParticipantWasRegisteredInCompetition(ParticipantWasRegisteredInCompetition $event)
+    {
+        $this->addParticipant($event->getParticipant());
+    }
+
     /**
      * Get id.
      *
@@ -170,6 +199,26 @@ abstract class Competition
 
         return $this;
     }
+
+    public function getParticipants()
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(AbstractParticipant $participant)
+    {
+        $this->participants->add($participant);
+
+        return $this;
+    }
+
+    public function removeParticipant(AbstractParticipant $participant)
+    {
+        $this->participants->removeElement($participant);
+
+        return $this;
+    }
+
 
 
 }

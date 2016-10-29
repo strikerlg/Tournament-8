@@ -35,6 +35,7 @@ Pstryk82\LeagueBundle\Domain\ReadModel\Projection\CompetitionProjection:
         participants:
             targetEntity: Pstryk82\LeagueBundle\Domain\ReadModel\Projection\AbstractParticipantProjection
             mappedBy: competition
+            cascade: ["persist"]
         games:
             targetEntity: Pstryk82\LeagueBundle\Domain\ReadModel\Projection\GameProjection
             mappedBy: competition

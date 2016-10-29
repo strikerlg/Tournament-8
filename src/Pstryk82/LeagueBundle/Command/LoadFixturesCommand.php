@@ -188,10 +188,13 @@ class LoadFixturesCommand extends ContainerAwareCommand
             $this->eventStorage->add($participant);
             $this->participantIds[] = $participant->getAggregateId();
         }
+        $this->eventBus->dispatch($league->getEvents());
+        $this->eventStorage->add($league);
     }
 
 
     private function executeGamesFixtures()
+//        NOW THIS ONE TAKES TOO LONG. INVESTIGATE 
     {
         $leagueHistory = new LeagueHistory($this->leagueId, $this->eventStorage);
         $league = League::reconstituteFrom($leagueHistory);

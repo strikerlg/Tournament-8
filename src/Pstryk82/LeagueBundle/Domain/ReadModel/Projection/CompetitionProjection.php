@@ -73,7 +73,7 @@ abstract class CompetitionProjection
      *
      * @param string $name
      *
-     * @return Competition
+     * @return $this
      */
     public function setName($name)
     {
@@ -97,7 +97,7 @@ abstract class CompetitionProjection
      *
      * @param string $season
      *
-     * @return Competition
+     * @return $this
      */
     public function setSeason($season)
     {
@@ -125,11 +125,11 @@ abstract class CompetitionProjection
     }
 
     /**
-     * @param AbstractParticipant $participant
+     * @param AbstractParticipantProjection $participant
      *
-     * @return Competition
+     * @return $this
      */
-    public function addParticipant(AbstractParticipant $participant)
+    public function addParticipant(AbstractParticipantProjection $participant)
     {
         $this->participants->add($participant);
 
@@ -137,11 +137,11 @@ abstract class CompetitionProjection
     }
 
     /**
-     * @param AbstractParticipant $participant
+     * @param AbstractParticipantProjection $participant
      *
-     * @return Competition
+     * @return $this
      */
-    public function removeParticipant(AbstractParticipant $participant)
+    public function removeParticipant(AbstractParticipantProjection $participant)
     {
         $this->participants->removeElement($participant);
 
@@ -211,11 +211,11 @@ abstract class CompetitionProjection
     }
 
     /**
-     * @param Game $game
+     * @param GameProjection $game
      *
      * @return $this
      */
-    public function addGame(Game $game)
+    public function addGame(GameProjection $game)
     {
         $this->games->add($game);
 
@@ -223,11 +223,11 @@ abstract class CompetitionProjection
     }
 
     /**
-     * @param Game $game
+     * @param GameProjection $game
      *
      * @return $this
      */
-    public function removeGame(Game $game)
+    public function removeGame(GameProjection $game)
     {
         $this->games->removeElement($game);
 
