@@ -2,9 +2,6 @@
 
 namespace Pstryk82\LeagueBundle\Command;
 
-use DateTime;
-use Pstryk82\LeagueBundle\Domain\Aggregate\AbstractParticipant;
-use Pstryk82\LeagueBundle\Domain\Aggregate\Competition;
 use Pstryk82\LeagueBundle\Domain\Aggregate\Game;
 use Pstryk82\LeagueBundle\Domain\Aggregate\History\LeagueHistory;
 use Pstryk82\LeagueBundle\Domain\Aggregate\History\ParticipantHistory;
@@ -14,6 +11,7 @@ use Pstryk82\LeagueBundle\Domain\Aggregate\LeagueParticipant;
 use Pstryk82\LeagueBundle\Domain\Aggregate\Team;
 use Pstryk82\LeagueBundle\Domain\Exception\GameLogicException;
 use Pstryk82\LeagueBundle\EventEngine\EventBus;
+use Pstryk82\LeagueBundle\Scheduler\LeagueScheduler;
 use Pstryk82\LeagueBundle\Storage\EventStorage;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -204,18 +202,15 @@ class LoadFixturesCommand extends ContainerAwareCommand
         }
 
         $numberOfParticipants = sizeof($this->participantIds);
-        for ($i = 0; $i < $numberOfParticipants; $i++) {
-            try {
-                $this->generateGameResults(
-                    $this->participants[$i],
-                    $this->participants[($i+1) * 19 % $numberOfParticipants],
-                    $league
-                );
-            } catch (GameLogicException $e) {
-                echo $e->getMessage() . " | skipping...\n";
-                continue;
+        $scheduler = new LeagueScheduler();
+        $schedule = $scheduler->generateSchedule($this->participants, $league);
+
+        foreach ($schedule as $round) {
+            foreach ($round as $game) {
+                $this->generateGameResults($game);
             }
         }
+
 
         foreach ($this->participants as $participant) {
             $this->eventBus->dispatch($participant->getEvents());
@@ -226,25 +221,14 @@ class LoadFixturesCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param AbstractParticipant $homeParticipant
-     * @param AbstractParticipant $awayParticipant
-     * @param Competition $league
+     * @param Game $game
      */
-    private function generateGameResults($homeParticipant, $awayParticipant, $league)
+    private function generateGameResults(Game $game)
     {
-        $game = Game::create(
-            $homeParticipant,
-            $awayParticipant,
-            $league,
-            new DateTime()
-        );
-
         $game->recordResult(mt_rand(0, 3), mt_rand(0, 3));
 
         $this->eventBus->dispatch($game->getEvents());
         $this->eventStorage->add($game);
-
-
     }
 
     public function executeFinishLeague()

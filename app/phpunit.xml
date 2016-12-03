@@ -29,8 +29,8 @@
         </whitelist>
     </filter>
 
-    <logging>
+<!--    <logging>
         <log type="coverage-html" target="/tmp/report" lowUpperBound="35" highLowerBound="70"
              showUncoveredFiles="true" addUncoveredFilesFromWhitelist="true"/>
-    </logging>
+    </logging>-->
 </phpunit>
